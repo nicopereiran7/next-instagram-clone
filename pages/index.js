@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeadComponent from "../components/HeadComponent";
 import Login from "../components/Login";
 import LayoutBasic from "../layouts/LayoutBasic";
@@ -6,6 +6,8 @@ import FeedPost from "../components/Home/FeedPost";
 import AvatarProfile from "../components/AvatarProfile";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
+import { setUserAuth } from "../store/slices/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const FEED = [
   { id: 1, username: "Nicolas" },
@@ -15,8 +17,13 @@ const FEED = [
 ];
 
 export default function Home() {
-  const [user, setUser] = useState("null");
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const router = useRouter();
+
+  useEffect(() => {
+    dispatch(setUserAuth());
+  }, []);
 
   return (
     <div>

@@ -1,21 +1,76 @@
+import { useState } from "react";
 import Link from "next/link";
+import { useFormik } from "formik";
+import axios from "../config/axios";
+import { setToken } from "../utils/localStorage";
 
 export default function LoginForm() {
+  const [loginError, setLoginError] = useState(null);
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: null,
+    onSubmit: async (formData) => {
+      try {
+        const response = await axios.post("/auth/signin", formData);
+        console.log(response.data);
+        setToken(response.data.token);
+        setLoginError(null);
+      } catch (e) {
+        const { error } = e.response.data;
+        setLoginError(error);
+      }
+    },
+  });
+
   return (
     <div>
       <div className="bg-white mb-4 py-5 px-10 border-solid border-[1px] border-neutral-300">
         <div className="p-[20px] flex items-center justify-center mb-5">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2560px-Instagram_logo.svg.png" alt="Instagram-clone Nicolas Pereira" className="w-1/2 object-cover"/>
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2560px-Instagram_logo.svg.png"
+            alt="Instagram-clone Nicolas Pereira"
+            className="w-1/2 object-cover"
+          />
         </div>
         <div>
-          <form className="flex flex-col items-center justify-center w-full">
-            <input type="text" className="py-[4px] px-2 bg-gray-100 focus:outline-none mb-3 w-full border-solid border-[1px] border-neutral-300" placeholder="Nombre de usuario"/>
-            <input type="password" className="py-[4px] px-2 bg-gray-100 focus:outline-none mb-3 w-full border-solid border-[1px] border-neutral-300" placeholder="Contraseña"/>
-            <button className="bg-[#3799F7] text-white border-none py-[4px] w-full rounded-sm">Iniciar Sesion</button>
+          <form
+            className="flex flex-col items-center justify-center w-full"
+            onSubmit={formik.handleSubmit}
+          >
+            <input
+              type="text"
+              className="py-[4px] px-2 bg-gray-100 focus:outline-none mb-3 w-full border-solid border-[1px] border-neutral-300"
+              placeholder="Correo Electronico"
+              name="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+            />
+            <input
+              type="password"
+              className="py-[4px] px-2 bg-gray-100 focus:outline-none mb-3 w-full border-solid border-[1px] border-neutral-300"
+              placeholder="Contraseña"
+              name="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
+            <button
+              className="bg-[#3799F7] text-white border-none py-[4px] w-full rounded-sm"
+              type="submit"
+            >
+              Iniciar Sesion
+            </button>
+            {loginError && (
+              <p className="text-center text-red-600 text-sm pt-4">
+                {loginError}
+              </p>
+            )}
           </form>
         </div>
 
-          {/* SEPARADOR */}
+        {/* SEPARADOR */}
         <div className="flex items-center mt-4">
           <div className="h-px bg-neutral-300 flex-grow mr-2"></div>
           <div>O</div>
@@ -24,9 +79,7 @@ export default function LoginForm() {
 
         <div className="flex items-center justify-center mt-4">
           <Link href="#">
-            <a className="text-sm">
-              Olvidaste tu contraseña
-            </a>
+            <a className="text-sm">Olvidaste tu contraseña</a>
           </Link>
         </div>
       </div>
@@ -40,5 +93,5 @@ export default function LoginForm() {
         </p>
       </div>
     </div>
-  )
+  );
 }
