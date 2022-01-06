@@ -71,7 +71,9 @@ function Username({ user, error }) {
 }
 
 export async function getServerSideProps({ query: { username } }) {
-  const response = await fetch(`http://localhost:3000/api/user/${username}`);
+  const response = await fetch(
+    `${process.env.SERVER_URI}/api/user/${username}`
+  );
   if (response.status === 200) {
     const user = await response.json();
 
