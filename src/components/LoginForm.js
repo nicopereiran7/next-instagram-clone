@@ -18,11 +18,13 @@ export default function LoginForm() {
     onSubmit: async (formData) => {
       setIsLoading(true);
       try {
-        const response = await axios.post("/auth/signin", formData);
-        setToken(response.data.token);
-        setLoginError(null);
-        setIsLoading(false);
-        window.location.href = "/";
+        const response = await axios.post(`/auth/signin`, formData);
+        if (response.status === 200) {
+          setToken(response.data.token);
+          setLoginError(null);
+          setIsLoading(false);
+          window.location.href = "/";
+        }
       } catch (e) {
         const { error } = e.response.data;
         setLoginError(error);

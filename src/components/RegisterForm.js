@@ -25,9 +25,9 @@ export default function RegisterForm() {
       email: Yup.string().email().required(true),
       password: Yup.string().required(true),
     }),
-    onSubmit: async (formValue) => {
+    onSubmit: async (formData) => {
       try {
-        const response = await axios.post("/auth/signup", formValue);
+        const response = await axios.get("/auth/signup", formData);
         if (response.status === 200) {
           setFinalizeRegister(true);
         }
