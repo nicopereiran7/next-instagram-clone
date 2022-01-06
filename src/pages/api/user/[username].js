@@ -1,9 +1,12 @@
 import User from "../../../models/user";
 import { dbConnect } from "../../../config/db";
+import { cors, runMiddleware } from "../../../middlewares/cors";
 
 dbConnect();
 
 export default async function handler(req, res) {
+  await runMiddleware(req, res, cors);
+
   switch (req.method) {
     case "GET":
       const { username } = req.query;

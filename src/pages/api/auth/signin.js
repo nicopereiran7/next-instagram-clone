@@ -2,10 +2,13 @@ import User from "../../../models/user";
 import { comparePassword } from "../../../utils/password";
 import { createToken } from "../../../utils/auth";
 import { dbConnect } from "../../../config/db";
+import { cors, runMiddleware } from "../../../middlewares/cors";
 
 dbConnect();
 
 export default async function handler(req, res) {
+  await runMiddleware(req, res, cors);
+
   if (req.method !== "POST")
     return res.status(400).send({ error: "Metodo no soportado" });
 
