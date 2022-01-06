@@ -21,7 +21,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="flex justify-center bg-white sticky top-0">
+    <nav className="flex justify-center bg-white sticky top-0 z-10">
       <div className="w-[975px]">
         <div className="flex items-center justify-between py-3 w-full">
           {/*LEFT */}

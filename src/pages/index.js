@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import HeadComponent from "../components/HeadComponent";
 import Login from "../components/Login";
 import LayoutBasic from "../layouts/LayoutBasic";
@@ -6,8 +5,7 @@ import FeedPost from "../components/Home/FeedPost";
 import AvatarProfile from "../components/AvatarProfile";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
-import { setUserAuth } from "../store/slices/userSlice";
-import { useSelector, useDispatch } from "react-redux";
+import useUserAuth from "../hooks/useUserAuth";
 
 const FEED = [
   { id: 1, username: "Nicolas" },
@@ -16,14 +14,11 @@ const FEED = [
   { id: 4, username: "Nicolas" },
 ];
 
-export default function Home() {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+function Home() {
+  const user = useUserAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    dispatch(setUserAuth());
-  }, []);
+  if (user === undefined) return null;
 
   return (
     <div>
@@ -53,11 +48,11 @@ export default function Home() {
                 <div className="flex flex-col items-start justify-center w-full ml-4">
                   <h1
                     className="font-medium box-border hover:cursor-pointer"
-                    onClick={() => router.push("/username")}
+                    onClick={() => router.push(`/${user.username}`)}
                   >
-                    username
+                    {user.username}
                   </h1>
-                  <h2 className="font-light">Nombre</h2>
+                  <h2 className="font-light">{user.name}</h2>
                 </div>
               </div>
               {/* sugerencias */}
@@ -71,3 +66,11 @@ export default function Home() {
     </div>
   );
 }
+
+Home.getInitialProps = async (ctx) => {
+  return {
+    data: "helo",
+  };
+};
+
+export default Home;

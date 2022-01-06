@@ -3,9 +3,12 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import axios from "../config/axios";
 import { setToken } from "../utils/localStorage";
+import { CircularProgress } from "@mui/material";
 
 export default function LoginForm() {
   const [loginError, setLoginError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -13,14 +16,17 @@ export default function LoginForm() {
     },
     validationSchema: null,
     onSubmit: async (formData) => {
+      setIsLoading(true);
       try {
         const response = await axios.post("/auth/signin", formData);
-        console.log(response.data);
         setToken(response.data.token);
         setLoginError(null);
+        setIsLoading(false);
+        window.location.href = "/";
       } catch (e) {
         const { error } = e.response.data;
         setLoginError(error);
+        setIsLoading(false);
       }
     },
   });
@@ -60,7 +66,11 @@ export default function LoginForm() {
               className="bg-[#3799F7] text-white border-none py-[4px] w-full rounded-sm"
               type="submit"
             >
-              Iniciar Sesion
+              {isLoading ? (
+                <CircularProgress size={14} className="mt-2" />
+              ) : (
+                "Iniciar Sesion"
+              )}
             </button>
             {loginError && (
               <p className="text-center text-red-600 text-sm pt-4">
