@@ -161,8 +161,8 @@ export default function RegisterForm() {
         ) : (
           <div className="bg-white border-solid border-[1px] border-neutral-300 p-5 mb-5">
             <p className="text-center">
-              Para iniciar sesion activa tu cuenta, haciendo click en el enlace
-              que fue enviado a {formik.values.email}
+              Para iniciar sesion tienes que activar tu cuenta, haciendo click
+              en el enlace que fue enviado a {formik.values.email}
             </p>
             <Link href="/">
               <a className="text-center text-blue-500">Ir a Iniciar Sesion</a>
