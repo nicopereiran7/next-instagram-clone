@@ -38,6 +38,9 @@ export default async function handler(req, res) {
     username,
     email,
     password: hash,
+    siteWeb: null,
+    description: null,
+    avatar: null,
     isActive: false,
   });
 

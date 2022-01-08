@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <div className="flex items-center justify-center flex-wrap px-2">
-      <FooterLink name="Meta"/>
+    <div className="flex items-center justify-center flex-wrap px-2 py-2">
+      <FooterLink name="Meta" />
       <FooterLink name="Informacion" />
       <FooterLink name="Blog" />
       <FooterLink name="Empleo" />
@@ -14,9 +14,13 @@ export default function Footer() {
       <FooterLink name="Ubicaciones" />
       <FooterLink name="Instagram Lite" />
     </div>
-  )
+  );
 }
 
 const FooterLink = ({ name }) => {
-  return <a href="#" className="text-[12px] py-1 px-2 text-[#8e8e8e]">{name}</a>
-}
+  return (
+    <a href="#" className="text-[12px] py-1 px-2 text-[#8e8e8e]">
+      {name}
+    </a>
+  );
+};

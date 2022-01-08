@@ -1,4 +1,5 @@
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 export default function LayoutBasic({ children }) {
   return (
@@ -9,6 +10,9 @@ export default function LayoutBasic({ children }) {
       <div className="flex justify-center">
         <div className="max-w-[975px] w-full">{children}</div>
       </div>
+
+      {/* footer */}
+      <Footer />
     </div>
   );
 }

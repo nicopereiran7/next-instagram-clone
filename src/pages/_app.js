@@ -1,10 +1,10 @@
 import "../styles/globals.css";
+import "../styles/dropdown.css";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import store from "../store/index";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-
 import { Progress } from "../components";
 import { useProgressStore } from "../hooks/useProgressStore";
 

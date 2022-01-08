@@ -1,7 +1,4 @@
-import { useState } from "react";
 import {
-  SearchIcon,
-  XIcon,
   HomeIcon,
   ChatIcon,
   HeartIcon,
@@ -10,15 +7,11 @@ import {
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import AvatarProfile from "./AvatarProfile";
+import DropdownProfileNavOptions from "./Profile/DropdownProfileNavOptions";
+import SearchBar from "./Search/SearchBar";
 
 export default function NavBar() {
-  const [inputSearch, setInputSearch] = useState("");
   const router = useRouter();
-
-  const resetSearch = () => {
-    setInputSearch("");
-  };
 
   return (
     <nav className="flex justify-center bg-white sticky top-0 z-10">
@@ -38,22 +31,7 @@ export default function NavBar() {
           </div>
           {/*CENTER */}
           <div className="hidden ml-4 sm:w-[298px] sm:ml-10 sm:block">
-            <div className="w-full bg-[#efefef] flex items-center p-2 rounded-lg">
-              <SearchIcon className="h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Buscar"
-                onChange={(e) => setInputSearch(e.target.value)}
-                value={inputSearch}
-                className="w-full focus:outline-none bg-[#efefef] px-2"
-              />
-              {inputSearch !== "" && (
-                <XIcon
-                  className="h-5 w-5 hover:cursor-pointer"
-                  onClick={resetSearch}
-                />
-              )}
-            </div>
+            <SearchBar />
           </div>
           {/*RIGHT */}
           <div className="flex justify-end items-center">
@@ -67,8 +45,15 @@ export default function NavBar() {
               <PlusCircleIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
               <SunIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
               <HeartIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
-              <div className="w-6 mx-2 hover:cursor-pointer">
-                <AvatarProfile />
+              <div className="w-6 mx-2 hover:cursor-pointer dropdown inline-block relative">
+                <img
+                  src="/assets/avatar.png"
+                  alt=""
+                  className="w-full object-cover rounded-full transition ease-in-out duration-300 transform hover:scale-110"
+                  id="dropdownButton"
+                  data-dropdown-toggle="dropdown"
+                />
+                <DropdownProfileNavOptions />
               </div>
             </div>
           </div>

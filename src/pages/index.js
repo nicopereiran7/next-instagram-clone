@@ -6,6 +6,7 @@ import AvatarProfile from "../components/AvatarProfile";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
 import useUserAuth from "../hooks/useUserAuth";
+import Loading from "../components/Loading";
 
 const FEED = [
   { id: 1, username: "Nicolas" },
@@ -15,10 +16,10 @@ const FEED = [
 ];
 
 function Home() {
-  const user = useUserAuth();
+  const { user, isLoading } = useUserAuth();
   const router = useRouter();
 
-  if (user === undefined) return null;
+  if (isLoading) return <Loading />;
 
   return (
     <div>
@@ -66,11 +67,5 @@ function Home() {
     </div>
   );
 }
-
-Home.getInitialProps = async (ctx) => {
-  return {
-    data: "helo",
-  };
-};
 
 export default Home;
