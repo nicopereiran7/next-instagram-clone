@@ -136,7 +136,7 @@ function Username({ user, followers, followed, posts, error }) {
 
 export async function getServerSideProps({ query: { username } }) {
   const response = await fetch(
-    `http://localhost:3000/api/user/${username}`, {
+    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/${username}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -144,7 +144,7 @@ export async function getServerSideProps({ query: { username } }) {
     }
   );
   const getFollowers = await fetch(
-    `http://localhost:3000/api/user/followers/${username}`, {
+    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/followers/${username}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -152,7 +152,7 @@ export async function getServerSideProps({ query: { username } }) {
     }
   );
   const getFollowed = await fetch(
-    `http://localhost:3000/api/user/followed/${username}`, {
+    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/followed/${username}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -160,7 +160,7 @@ export async function getServerSideProps({ query: { username } }) {
     }
   );
   const getPosts = await fetch(
-    `http://localhost:3000/api/user/posts/${username}`, {
+    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/posts/${username}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
