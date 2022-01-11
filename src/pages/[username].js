@@ -61,11 +61,11 @@ function Username({ user, followers, followed, posts, error }) {
           <div className="w-full inline-block sm:flex p-4 sm:p-8 mb-4">
             {/* -- avatar image --*/}
             <div className="flex-[0.3_1_0%] px-0 sm:px-10 ">
-              <div className="w-[100px] sm:w-[170px]">
+              <div className="w-[100px] sm:w-[170px] sm:h-[170px]">
                 <img
-                  src={user?.avatar ? user.avatar : "/assets/avatar.png"}
+                  src={user?.avatar || "/assets/avatar.png"}
                   alt={user?.username}
-                  className="rounded-full"
+                  className="w-full h-full rounded-full"
                 />
               </div>
             </div>
@@ -136,16 +136,36 @@ function Username({ user, followers, followed, posts, error }) {
 
 export async function getServerSideProps({ query: { username } }) {
   const response = await fetch(
-    `${process.env.SERVER_URI}/api/user/${username}`
+    `http://localhost:3000/api/user/${username}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
   );
   const getFollowers = await fetch(
-    `${process.env.SERVER_URI}/api/user/followers/${username}`
+    `http://localhost:3000/api/user/followers/${username}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
   );
   const getFollowed = await fetch(
-    `${process.env.SERVER_URI}/api/user/followed/${username}`
+    `http://localhost:3000/api/user/followed/${username}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
   );
   const getPosts = await fetch(
-    `http://localhost:3000/api/user/posts/${username}`
+    `http://localhost:3000/api/user/posts/${username}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
   );
 
   if (

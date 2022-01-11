@@ -29,8 +29,13 @@ export const setUserAuth = () => async (dispatch) => {
 
   if (token) {
     try {
-      const user = decodeToken(token);
-      const res = await fetch(`http://localhost:3000/api/user/${user?.username}`);
+      const user = await decodeToken(token);
+      const res = await fetch(`http://localhost:3000/api/user/${user?.username}`, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
       const data = await res.json();
   
       dispatch(setUser(data || null));

@@ -24,7 +24,7 @@ export const setUserAuth = () => async (dispatch) => {
   const token = await getToken();
 
   if (token) {
-    const user = decodeToken(token);
+    const user = await decodeToken(token);
     dispatch(setUser(user));
   }
 };
