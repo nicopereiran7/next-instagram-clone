@@ -13,7 +13,9 @@ import ModalBasic from "../components/Modal/ModalBasic";
 import Followers from "../components/Profile/Followers";
 import Posts from "../components/Profile/Posts";
 
-function Username({ user, followers, followed, posts, error }) {
+function Username({ data, error }) {
+  const { userFound, followers, followed, posts } = data;
+
   const { user: userAuth } = useUserAuth();
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
@@ -50,7 +52,7 @@ function Username({ user, followers, followed, posts, error }) {
         title={
           !userAuth
             ? "Instagram"
-            : `${user?.name} (${user?.username}) - Fotos y video en Instagram`
+            : `${userFound?.name} (${userFound?.username}) - Fotos y video en Instagram`
         }
       />
       {!userAuth ? (
@@ -63,8 +65,8 @@ function Username({ user, followers, followed, posts, error }) {
             <div className="flex-[0.3_1_0%] px-0 sm:px-10 ">
               <div className="w-[100px] sm:w-[170px] sm:h-[170px]">
                 <img
-                  src={user?.avatar || "/assets/avatar.png"}
-                  alt={user?.username}
+                  src={userFound?.avatar || "/assets/avatar.png"}
+                  alt={userFound?.username}
                   className="w-full h-full rounded-full"
                 />
               </div>
@@ -72,8 +74,8 @@ function Username({ user, followers, followed, posts, error }) {
             {/*-- profile info --*/}
             <div className="flex-[0.7_1_0%] flex flex-col">
               <div className="flex items-center gap-4">
-                <h1 className="text-2xl font-light">{user?.username}</h1>
-                {userAuth?.username === user?.username ? (
+                <h1 className="text-2xl font-light">{userFound?.username}</h1>
+                {userAuth?.username === userFound?.username ? (
                   <>
                     {/* usuario autenticado */}
                     <button
@@ -89,7 +91,7 @@ function Username({ user, followers, followed, posts, error }) {
                 ) : (
                   <>
                     {/* usuarios normales */}
-                    <Follow username={user?.username} />
+                    <Follow username={userFound?.username} />
                     <div>
                       <DotsHorizontalIcon className="w-5 h-5" />
                     </div>
@@ -97,7 +99,7 @@ function Username({ user, followers, followed, posts, error }) {
                 )}
               </div>
               <div className="w-full flex gap-6 my-4">
-                <p>{`${posts.length} Publicaciones`}</p>
+                <p>{`${posts?.length} Publicaciones`}</p>
                 <p
                   onClick={allFollowers}
                   className="hover:cursor-pointer"
@@ -114,20 +116,20 @@ function Username({ user, followers, followed, posts, error }) {
               </ModalBasic>
 
               <div className="max-w-[500px]">
-                <h2 className="font-medium">{user?.name}</h2>
+                <h2 className="font-medium">{userFound?.name}</h2>
                 <p>
                   lorem ipsum dolor sit amet, consectetur lorem ipsum dolor sit
                   amet, consectetur lorem ipsum dolor sit amet, consectetur
                   lorem ipsum dolor sit amet, consectetur lorem ipsum dolor sit
                   amet, consectetur
                 </p>
-                {user?.description && <p>{user?.description}</p>}
+                {userFound?.description && <p>{userFound?.description}</p>}
               </div>
             </div>
           </div>
 
           {/* PUBLICACIONES */}
-          {!posts ? <LinearProgress /> : <Posts user={user} posts={posts} />}
+          {!posts ? <LinearProgress /> : <Posts user={userFound} posts={posts} />}
         </>
       )}
     </LayoutBasic>
@@ -136,31 +138,7 @@ function Username({ user, followers, followed, posts, error }) {
 
 export async function getServerSideProps({ query: { username } }) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/${username}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-  const getFollowers = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/followers/${username}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-  const getFollowed = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/followed/${username}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-  const getPosts = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/posts/${username}`, {
+    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/alldata/${username}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
@@ -169,22 +147,13 @@ export async function getServerSideProps({ query: { username } }) {
   );
 
   if (
-    response.status === 200 &&
-    getFollowers.status === 200 &&
-    getFollowed.status === 200 &&
-    getPosts.status === 200
+    response.status === 200
   ) {
-    const user = await response.json();
-    const followers = await getFollowers.json();
-    const followed = await getFollowed.json();
-    const posts = await getPosts.json();
+    const data = await response.json();
 
     return {
       props: {
-        user,
-        followers,
-        followed,
-        posts,
+        data
       },
     };
   }

@@ -2,7 +2,7 @@ import User from "../../../models/user";
 import { dbConnect } from "../../../config/db";
 import { cors, runMiddleware } from "../../../middlewares/cors";
 
-// GET: http://localhost:3000/api/user
+// GET: http://localhost:3000/api/user/nico123
 export default async function handler(req, res) {
   await dbConnect();
   await runMiddleware(req, res, cors);
