@@ -4,10 +4,13 @@ import { useFormik } from "formik";
 import axios from "../config/axios";
 import { setToken } from "../utils/localStorage";
 import { CircularProgress } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setUserAuth } from "../store/slices/userSlice";
 
 export default function LoginForm() {
   const [loginError, setLoginError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -21,6 +24,7 @@ export default function LoginForm() {
         const response = await axios.post(`/auth/signin`, formData);
         if (response.status === 200) {
           setToken(response.data.token);
+          dispatch(setUserAuth());
           setLoginError(null);
           setIsLoading(false);
           window.location.href = "/";

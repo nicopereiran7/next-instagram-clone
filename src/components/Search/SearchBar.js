@@ -83,11 +83,18 @@ export default function SearchBar(props) {
   );
 }
 
-const AutocompleteItem = ({ name, username }) => {
+const AutocompleteItem = ({ name, username, avatar }) => {
   return (
     <li>
       <Link href={`/${username}`}>
         <a className="hover:bg-slate-100 flex items-center gap-4 p-4">
+          <div className="w-6 h-6">
+            <img
+              src={avatar || "/assets/avatar.png"}
+              alt={username}
+              className="w-full h-full object-cover rounded-full"
+            />
+          </div>
           <h3 className="font-semibold">{name}</h3>
           <p className="text-xs">{username}</p>
         </a>

@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const { user: username } = req.query;
 
   const userFound = await User.findOne({ username }).exec();
-  const posts = await Post.find({ idUser: userFound._id }).exec();
+  const posts = await Post.find({ idUser: userFound._id }).sort({date: -1}).exec();
 
   if (!posts) return res.status(404).send({ error: "Error al obtener posts" });
 

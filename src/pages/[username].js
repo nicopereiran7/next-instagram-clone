@@ -4,68 +4,16 @@ import HeadComponent from "../components/HeadComponent";
 import PageNotFound from "../components/PageNotFound";
 import { LinearProgress } from "@mui/material";
 import { useRouter } from "next/router";
-import {
-  CogIcon,
-  ViewGridIcon,
-  DotsHorizontalIcon,
-} from "@heroicons/react/outline";
-import GridPost from "../components/Profile/GridPost";
+import { CogIcon, DotsHorizontalIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import { getToken } from "../utils/localStorage";
 import Follow from "../components/Profile/Follow";
 import ModalBasic from "../components/Modal/ModalBasic";
 import Followers from "../components/Profile/Followers";
+import Posts from "../components/Profile/Posts";
 
-const DATA = [
-  {
-    id: 1,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 2,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 3,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 4,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 5,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 6,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 7,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 8,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-  {
-    id: 9,
-    title: "hola",
-    link: "https://www.ilustrado.cl/wp-content/uploads/2020/12/Dubai.jpg",
-  },
-];
-
-function Username({ user, followers, followed, error }) {
+function Username({ user, followers, followed, posts, error }) {
   const { user: userAuth } = useUserAuth();
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
@@ -149,7 +97,7 @@ function Username({ user, followers, followed, error }) {
                 )}
               </div>
               <div className="w-full flex gap-6 my-4">
-                <p>publicaciones</p>
+                <p>{`${posts.length} Publicaciones`}</p>
                 <p
                   onClick={allFollowers}
                   className="hover:cursor-pointer"
@@ -159,6 +107,7 @@ function Username({ user, followers, followed, error }) {
               <ModalBasic
                 openModal={openModal}
                 closeModal={closeModal}
+                haveTitle={true}
                 title={titleModal}
               >
                 {modalContent}
@@ -178,27 +127,7 @@ function Username({ user, followers, followed, error }) {
           </div>
 
           {/* PUBLICACIONES */}
-          <div className="mb-4">
-            {/* navegacion publicaciones - videos */}
-            <div className="border-solid border-t-[1px] border-neutral-300 flex justify-center px-4 py-3">
-              <div
-                className={`flex items-center justify-center gap-1 hover:cursor-pointer ${
-                  router.asPath.replace("/", "") === user?.username &&
-                  "text-[#3799F7]"
-                }`}
-              >
-                <ViewGridIcon className="w-4 h-4" />
-                <p className="uppercase">Publicaciones</p>
-              </div>
-              {/* <div>videos</div>
-              <div>guardado</div>
-              <div>etiquetas</div> */}
-            </div>
-            {/* data */}
-            <div>
-              <GridPost data={DATA} />
-            </div>
-          </div>
+          {!posts ? <LinearProgress /> : <Posts user={user} posts={posts} />}
         </>
       )}
     </LayoutBasic>
@@ -215,21 +144,27 @@ export async function getServerSideProps({ query: { username } }) {
   const getFollowed = await fetch(
     `${process.env.SERVER_URI}/api/user/followed/${username}`
   );
+  const getPosts = await fetch(
+    `http://localhost:3000/api/user/posts/${username}`
+  );
 
   if (
     response.status === 200 &&
     getFollowers.status === 200 &&
-    getFollowed.status === 200
+    getFollowed.status === 200 &&
+    getPosts.status === 200
   ) {
     const user = await response.json();
     const followers = await getFollowers.json();
     const followed = await getFollowed.json();
+    const posts = await getPosts.json();
 
     return {
       props: {
         user,
         followers,
         followed,
+        posts,
       },
     };
   }

@@ -6,7 +6,9 @@ import AvatarProfile from "../components/AvatarProfile";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
 import useUserAuth from "../hooks/useUserAuth";
+import useAllUserAuth from "../hooks/useAllUserAuth";
 import Loading from "../components/Loading";
+import { LinearProgress } from "@mui/material";
 
 const FEED = [
   { id: 1, username: "Nicolas" },
@@ -17,6 +19,7 @@ const FEED = [
 
 function Home() {
   const { user, isLoading } = useUserAuth();
+  const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const router = useRouter();
 
   if (isLoading) return <Loading />;
@@ -43,8 +46,12 @@ function Home() {
             <div className="hidden sm:flex-[0.35_1_0%] sm:block pl-6">
               {/* profile */}
               <div className="flex items-center justify-between py-4">
-                <div className="w-16">
-                  <AvatarProfile />
+                <div className="w-16 h-[51px]">
+                  {userAuthIsLoading ? (
+                    <LinearProgress />
+                  ) : (
+                    <AvatarProfile userAuth={userAuth} />
+                  )}
                 </div>
                 <div className="flex flex-col items-start justify-center w-full ml-4">
                   <h1

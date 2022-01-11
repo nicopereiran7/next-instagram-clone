@@ -1,22 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserAuth } from "../store/slices/userSlice";
+import { setUserAuth } from "../store/slices/userAuthSlice";
 import { useRouter } from "next/router";
 
 export default function useUserAuth() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user, isLoading } = useSelector((store) => store.user);
+  const { userAuth, userAuthIsLoading } = useSelector((store) => store.userAuth);
 
   useEffect(() => {
-    async function fetchUser() {
-      dispatch(await setUserAuth());
-    }
-    fetchUser();
+    dispatch(setUserAuth());
   }, [router]);
 
   return {
-    user,
-    isLoading,
+    userAuth,
+    userAuthIsLoading
   };
 }

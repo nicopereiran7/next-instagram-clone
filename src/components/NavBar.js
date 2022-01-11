@@ -9,9 +9,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import DropdownProfileNavOptions from "./Profile/DropdownProfileNavOptions";
 import SearchBar from "./Search/SearchBar";
+import useAllUserAuth from "../hooks/useAllUserAuth";
+import { useState } from "react";
+import UploadPost from "./Profile/UploadPost";
 
 export default function NavBar() {
   const router = useRouter();
+  const { userAuth } = useAllUserAuth();
+  const [openPostModal, setOpenPostModal] = useState(false);
+
+  const closePostModal = () => setOpenPostModal(false);
 
   return (
     <nav className="flex justify-center bg-white sticky top-0 z-10">
@@ -42,16 +49,23 @@ export default function NavBar() {
                 onClick={() => router.push("/")}
               />
               <ChatIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
-              <PlusCircleIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
+              {/* nueva publicacion icon */}
+              <PlusCircleIcon
+                className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer"
+                onClick={() => setOpenPostModal(true)}
+              />
+              <UploadPost
+                openModal={openPostModal}
+                closeModal={closePostModal}
+              />
               <SunIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
               <HeartIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
-              <div className="w-6 mx-2 hover:cursor-pointer dropdown inline-block relative">
+              <div className="w-6 h-6 mx-2 hover:cursor-pointer dropdown inline-block relative">
                 <img
-                  src="/assets/avatar.png"
+                  src={userAuth?.avatar || "/assets/avatar.png"}
                   alt=""
-                  className="w-full object-cover rounded-full transition ease-in-out duration-300 transform hover:scale-110"
-                  id="dropdownButton"
-                  data-dropdown-toggle="dropdown"
+                  className="w-full h-full relative top-[1px] object-cover rounded-full transition ease-in-out duration-300 transform hover:scale-110"
+                  loading="lazy"
                 />
                 <DropdownProfileNavOptions />
               </div>

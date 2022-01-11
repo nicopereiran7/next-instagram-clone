@@ -15,6 +15,7 @@ const PostSchema = new Schema({
     required: true,
   },
   type: {
+    // mp4, jpeg, png
     type: String,
     trim: true,
   },

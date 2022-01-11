@@ -15,13 +15,13 @@ export default function Followers({ followers, setOpenModal }) {
     <div className="py-2 px-4 flex flex-col gap-2">
       {followers.map((item, index) => (
         <div key={index} className="flex items-center justify-between gap-2">
-          <div className="w-[34px]">
+          <div className="w-[34px] h-[24px] flex justify-center">
             <img
               src={
                 item.idUser.avatar ? item.idUser.avatar : "./assets/avatar.png"
               }
               alt={item.idUser.name}
-              className="w-full object-cover rounded-full"
+              className="w-full h-full object-cover rounded-full"
             />
           </div>
           <div className="w-full">

@@ -6,7 +6,7 @@ const comn = {
 
 export async function dbConnect() {
   if (comn.isConnected) return;
-
+  console.log("Conectando MongoDB...");
   const db = await connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

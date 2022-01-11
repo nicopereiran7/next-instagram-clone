@@ -1,26 +1,35 @@
 import { Box, Modal } from "@mui/material";
 
-export default function ModalBasic({ openModal, closeModal, children, title }) {
+export default function ModalBasic({
+  openModal,
+  closeModal,
+  children,
+  title,
+  haveTitle = false,
+  width = 400,
+  border = true,
+}) {
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width,
     boxShadow: 24,
   };
+
   return (
     <div>
-      <Modal
-        open={openModal}
-        onClose={closeModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className="bg-white focus:outline-none rounded-lg" sx={style}>
-          <div className="w-full py-2 border-solid border-b-[1px] border-neutral-200">
-            <h1 className="text-base text-center">{title}</h1>
-          </div>
+      <Modal open={openModal} onClose={closeModal}>
+        <Box
+          className={`bg-white focus:outline-none ${border && "rounded-lg"}`}
+          sx={style}
+        >
+          {haveTitle && (
+            <div className="w-full py-4 border-solid border-b-[1px] border-neutral-200">
+              <h1 className="text-base text-center">{title}</h1>
+            </div>
+          )}
           <div>{children}</div>
         </Box>
       </Modal>
