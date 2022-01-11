@@ -1,6 +1,6 @@
 import User from "../../../../models/user";
 import Follow from "../../../../models/follow";
-import Post from "../../../../models/Post";
+import Post from "../../../../models/post";
 import { dbConnect } from "../../../../config/db";
 import { cors, runMiddleware } from "../../../../middlewares/cors";
 
