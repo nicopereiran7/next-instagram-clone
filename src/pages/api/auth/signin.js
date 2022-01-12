@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   if (!passCompare)
     return res.status(404).send({ error: "Usuario o contraseña incorrectos" });
 
-  const token = createToken(userFound, process.env.SECRET_KEY, "48h");
+  const token = createToken(userFound, process.env.NEXT_PUBLIC_SECRET_KEY, "48h");
 
   return res.status(200).send({ token });
 }

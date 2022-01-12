@@ -1,8 +1,8 @@
 import AWS from "aws-sdk";
 
-const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
-const ID_SECRET_KEY = process.env.AWS_ID_SECRET_KEY;
-const SECRET_KEY = process.env.AWS_KEY;
+const BUCKET_NAME = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+const ID_SECRET_KEY = process.env.NEXT_PUBLIC_AWS_ID_SECRET_KEY;
+const SECRET_KEY = process.env.NEXT_PUBLIC_AWS_KEY;
 
 const s3 = new AWS.S3({
   accessKeyId: ID_SECRET_KEY,

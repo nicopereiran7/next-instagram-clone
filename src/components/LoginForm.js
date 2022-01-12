@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useFormik } from "formik";
-import axios from "../config/axios";
 import { setToken } from "../utils/localStorage";
 import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -21,9 +20,14 @@ export default function LoginForm() {
     onSubmit: async (formData) => {
       setIsLoading(true);
       try {
-        const response = await axios.post(`/auth/signin`, formData);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signin`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify(formData),
+        });
         if (response.status === 200) {
-          setToken(response.data.token);
+          const result = await response.json();
+          setToken(result.token);
           dispatch(setUserAuth());
           setLoginError(null);
           setIsLoading(false);
