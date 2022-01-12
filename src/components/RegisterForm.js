@@ -27,7 +27,7 @@ export default function RegisterForm() {
     }),
     onSubmit: async (formData, { resetForm }) => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signup`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/signup`, {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",

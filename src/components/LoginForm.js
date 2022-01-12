@@ -20,7 +20,7 @@ export default function LoginForm() {
     onSubmit: async (formData) => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/auth/signin`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json'},
           body: JSON.stringify(formData),
