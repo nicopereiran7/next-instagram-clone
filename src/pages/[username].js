@@ -146,9 +146,7 @@ export async function getServerSideProps({ query: { username } }) {
     }
   );
 
-  if (
-    response.status === 200
-  ) {
+  if (response.status === 200) {
     const data = await response.json();
 
     return {
