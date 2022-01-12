@@ -4,9 +4,8 @@ import { createToken } from "../../../utils/auth";
 import { dbConnect } from "../../../config/db";
 import { cors, runMiddleware } from "../../../middlewares/cors";
 
-dbConnect();
-
 export default async function handler(req, res) {
+  await dbConnect();
   await runMiddleware(req, res, cors);
 
   if (req.method !== "POST")

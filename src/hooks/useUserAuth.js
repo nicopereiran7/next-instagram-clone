@@ -4,7 +4,6 @@ import { setUserAuth } from "../store/slices/userSlice";
 import { useRouter } from "next/router";
 
 export default function useUserAuth() {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { user, isLoading } = useSelector((store) => store.user);
 
@@ -13,7 +12,7 @@ export default function useUserAuth() {
       dispatch(setUserAuth());
     }
     fetchUser();
-  }, [router.route]);
+  }, []);
 
   return {
     user,

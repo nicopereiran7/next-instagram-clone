@@ -1,6 +1,6 @@
 import HeadComponent from "./HeadComponent";
 
-export default function Loaging() {
+export default function Loading() {
   return (
     <>
       <HeadComponent title="Instagram" />

@@ -22,7 +22,7 @@ export default function ModalBasic({
     <div>
       <Modal open={openModal} onClose={closeModal}>
         <Box
-          className={`bg-white focus:outline-none ${border && "rounded-lg"}`}
+          className={`bg-white focus:outline-none ${border && "rounded-lg"} max-h-[90vh] min-h-[80vh]`}
           sx={style}
         >
           {haveTitle && (

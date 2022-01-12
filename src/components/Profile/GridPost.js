@@ -37,7 +37,7 @@ export default function GridPost({ data }) {
       <ModalBasic
         openModal={!!router.query.id}
         closeModal={closeModal}
-        width={800}
+        width={1000}
         border={false}
       >
         <PostModal />

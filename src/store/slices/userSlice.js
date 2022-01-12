@@ -36,4 +36,5 @@ export const setUserAuth = () => async (dispatch) => {
 export const logOut = () => async (dispatch) => {
   removeToken();
   dispatch(setUser(null));
+  dispatch(setIsLoading(false));
 };

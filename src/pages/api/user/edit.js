@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const data = await req.body;
   const { name, username, email, description, site } = data;
   const { autorization: token } = req.headers;
-  const user = jwt.verify(token, process.env.SECRET_KEY);
+  const user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
 
   const form = {
     name,

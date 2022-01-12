@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import LayoutBasic from "./LayoutBasic";
-import Loading from "../components/Loading";
 import { getToken } from "../utils/localStorage";
-import useUserAuth from "../hooks/useUserAuth";
+import Loading from "../components/Loading";
 import useAllUserAuth from "../hooks/useAllUserAuth";
 
 export default function LayoutConfigProfile({ children }) {
@@ -14,14 +13,13 @@ export default function LayoutConfigProfile({ children }) {
     if (!getToken()) {
       router.push("/");
     }
-    
   }, []);
 
-  if (!userAuth) return <Loading />;
+  if(!userAuth) return <Loading />
 
   return (
     <LayoutBasic>
-      <div className="flex bg-white w-full my-4 border-solid border-[1px] border-neutral-300">
+      <div className="flex bg-white w-full my-4 border-solid border-[1px] border-neutral-300 divide-x-2">
         <div className="hidden sm:flex flex-[0.3_1_0%] flex-col">
           <LinkItem link="/account/edit" title="Editar Perfil" />
           <LinkItem link="/account/password" title="Cambiar Contraseña" />

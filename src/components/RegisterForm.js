@@ -4,7 +4,6 @@ import ButtonForm from "./Form/ButtonForm";
 import Separator from "./Form/Separator";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "../config/axios";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function RegisterForm() {

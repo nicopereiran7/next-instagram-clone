@@ -17,7 +17,7 @@ handler.post(async (req, res) => {
   try {
     const file = req.files;
     const { authorization: token } = req.headers;
-    const user = jwt.verify(token, process.env.SECRET_KEY);
+    const user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
 
     const { mimetype, filepath } = await file.data;
     const extension = mimetype.split("/")[1];

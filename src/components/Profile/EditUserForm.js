@@ -2,12 +2,12 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Loading from "../../components/Loading";
-import useAllUserAuth from "../../hooks/useAllUserAuth";
 import { getToken } from "../../utils/localStorage";
 import { CircularProgress } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export default function EditUserForm() {
-  const { userAuth } = useAllUserAuth();
+  const { userAuth } = useSelector(state => state.userAuth);
   const [reload, setReload] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -52,8 +52,6 @@ export default function EditUserForm() {
       }
     },
   });
-
-  if (!userAuth) return <Loading />;
 
   return (
     <form className="w-full flex flex-col gap-4" onSubmit={formik.handleSubmit}>

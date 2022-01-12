@@ -2,10 +2,10 @@ import HeadComponent from "../../components/HeadComponent";
 import LayoutConfigProfile from "../../layouts/LayoutConfigProfile";
 import EditUserForm from "../../components/Profile/EditUserForm";
 import EditAvatarProfile from "../../components/Profile/EditAvatarProfile";
-import useAllUserAuth from "../../hooks/useAllUserAuth";
+import { useSelector } from "react-redux";
 
 export default function Edit() {
-  const { userAuth } = useAllUserAuth();
+  const { userAuth } = useSelector(state => state.userAuth);
 
   return (
     <LayoutConfigProfile>

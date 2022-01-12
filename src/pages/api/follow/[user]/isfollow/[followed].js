@@ -3,9 +3,8 @@ import { dbConnect } from "../../../../../config/db";
 import User from "../../../../../models/user";
 import Follow from "../../../../../models/follow";
 
-dbConnect();
-
 export default async function handler(req, res) {
+  await dbConnect();
   await runMiddleware(req, res, cors);
 
   if (req.method !== "GET")

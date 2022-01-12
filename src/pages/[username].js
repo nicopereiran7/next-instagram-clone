@@ -117,13 +117,8 @@ function Username({ data, error }) {
 
               <div className="max-w-[500px]">
                 <h2 className="font-medium">{userFound?.name}</h2>
-                <p>
-                  lorem ipsum dolor sit amet, consectetur lorem ipsum dolor sit
-                  amet, consectetur lorem ipsum dolor sit amet, consectetur
-                  lorem ipsum dolor sit amet, consectetur lorem ipsum dolor sit
-                  amet, consectetur
-                </p>
                 {userFound?.description && <p>{userFound?.description}</p>}
+                {userFound?.siteWeb && <a href={userFound?.siteWeb} className="text-sm font-semibold text-[#00376b]" target="_blank" rel="noreferrer">{userFound?.siteWeb?.replace(/^https?:\/\//, '')}</a>}
               </div>
             </div>
           </div>
@@ -138,12 +133,7 @@ function Username({ data, error }) {
 
 export async function getServerSideProps({ query: { username } }) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/alldata/${username}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
+    `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/alldata/${username}`
   );
 
   if (response.status === 200) {

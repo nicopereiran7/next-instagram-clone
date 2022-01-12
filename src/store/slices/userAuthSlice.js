@@ -23,13 +23,12 @@ export const { setUser, setIsLoading } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
 
-export const setUserAuth = () => async (dispatch) => {
+export const setUserAuthAllData = () => async (dispatch) => {
   dispatch(setIsLoading(true));
-  const token = await getToken();
+  const token = getToken();
 
   if (token) {
     try {
-      dispatch(setIsLoading(true));
       const user = await decodeToken(token);
       const res = await fetch(`http://localhost:3000/api/user/${user?.username}`, {
         method: 'GET',

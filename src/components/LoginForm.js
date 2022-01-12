@@ -5,6 +5,7 @@ import { setToken } from "../utils/localStorage";
 import { CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setUserAuth } from "../store/slices/userSlice";
+import { setUserAuthAllData } from "../store/slices/userAuthSlice";
 
 export default function LoginForm() {
   const [loginError, setLoginError] = useState(null);
@@ -31,7 +32,11 @@ export default function LoginForm() {
           dispatch(setUserAuth());
           setLoginError(null);
           setIsLoading(false);
+          dispatch(setUserAuthAllData());
           window.location.href = "/";
+        }else {
+          setIsLoading(false);
+          setLoginError("Usuario o Contraseña incorrectos");
         }
       } catch (e) {
         const { error } = e.response.data;
