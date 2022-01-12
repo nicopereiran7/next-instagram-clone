@@ -29,6 +29,7 @@ export const setUserAuth = () => async (dispatch) => {
 
   if (token) {
     try {
+      dispatch(userAuthIsLoading(true));
       const user = await decodeToken(token);
       const res = await fetch(`http://localhost:3000/api/user/${user?.username}`, {
         method: 'GET',
@@ -39,8 +40,10 @@ export const setUserAuth = () => async (dispatch) => {
       const data = await res.json();
   
       dispatch(setUser(data || null));
+      dispatch(userAuthIsLoading(false));
     }catch (err) {
       dispatch(setUser(null));
+      dispatch(userAuthIsLoading(false));
     }
   }
 };

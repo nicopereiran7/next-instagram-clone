@@ -10,10 +10,10 @@ export default function useUserAuth() {
 
   useEffect(() => {
     async function fetchUser() {
-      dispatch(await setUserAuth());
+      dispatch(setUserAuth());
     }
     fetchUser();
-  }, [router]);
+  }, [router.route]);
 
   return {
     user,

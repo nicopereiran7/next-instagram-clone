@@ -10,7 +10,7 @@ export default function useUserAuth() {
 
   useEffect(() => {
     dispatch(setUserAuth());
-  }, [router]);
+  }, [router.route]);
 
   return {
     userAuth,

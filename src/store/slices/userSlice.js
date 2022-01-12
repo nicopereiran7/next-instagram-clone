@@ -11,22 +11,26 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      state.isLoading = false;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    }
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setIsLoading } = userSlice.actions;
 
 export default userSlice.reducer;
 
 export const setUserAuth = () => async (dispatch) => {
   const token = await getToken();
+  dispatch(setIsLoading(true));
 
   if (token) {
     const user = await decodeToken(token);
     dispatch(setUser(user));
   }
+  dispatch(setIsLoading(false));
 };
 
 export const logOut = () => async (dispatch) => {

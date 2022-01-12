@@ -9,6 +9,7 @@ import useUserAuth from "../hooks/useUserAuth";
 import useAllUserAuth from "../hooks/useAllUserAuth";
 import Loading from "../components/Loading";
 import { LinearProgress } from "@mui/material";
+import { useEffect } from "react";
 
 const FEED = [
   { id: 1, username: "Nicolas" },
