@@ -30,7 +30,7 @@ export const setUserAuthAllData = () => async (dispatch) => {
   if (token) {
     try {
       const user = await decodeToken(token);
-      const res = await fetch(`http://localhost:3000/api/user/${user?.username}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/user/${user?.username}`);
       const data = await res.json();
   
       dispatch(setUser(data || null));

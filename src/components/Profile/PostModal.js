@@ -35,8 +35,11 @@ export default function PostModal({ userAuth }) {
   useEffect(() => {
     async function fetchLike() {
       try {
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/${userAuth?._id}/islike/${postId}`);
-        setIsLike(data.isLike);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/${userAuth?._id}/islike/${postId}`);
+        if(res.status === 200) {
+          const data = await res.json();
+          setIsLike(data.isLike);
+        }
       }catch (e) {
         console.log(e.response);
       }
