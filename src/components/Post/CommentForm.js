@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { getToken } from "../../utils/localStorage";
 
-export default function CommentForm({ idPost }) {
+export default function CommentForm({ idPost, setReload }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -27,10 +27,11 @@ export default function CommentForm({ idPost }) {
           body: JSON.stringify(finalData),
         })
         if(res.status === 200) {
-          const result = await res.json();
-          console.log(result);
+          //const result = await res.json();
+
           setIsLoading(false);
           resetForm();
+          setReload(true)
         }
       }catch (e) {
         console.log(e);

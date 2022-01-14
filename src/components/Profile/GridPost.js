@@ -3,10 +3,12 @@ import { useRouter } from "next/router";
 import ModalBasic from "../Modal/ModalBasic";
 import { useContextualRouting } from "next-use-contextual-routing";
 import PostModal from "./PostModal";
+import { useSelector } from "react-redux";
 
 export default function GridPost({ data }) {
   const router = useRouter();
   const { makeContextualHref, returnHref } = useContextualRouting();
+  const { userAuth } = useSelector(state => state.userAuth);
 
   const closeModal = () => {
     router.push(returnHref);
@@ -40,7 +42,7 @@ export default function GridPost({ data }) {
         width={1000}
         border={false}
       >
-        <PostModal />
+        <PostModal userAuth={userAuth}/>
       </ModalBasic>
     </>
   );

@@ -9,7 +9,6 @@ import useUserAuth from "../hooks/useUserAuth";
 import useAllUserAuth from "../hooks/useAllUserAuth";
 import Loading from "../components/Loading";
 import { LinearProgress } from "@mui/material";
-import { useEffect } from "react";
 
 const FEED = [
   { id: 1, username: "Nicolas" },
@@ -32,9 +31,7 @@ function Home() {
         <Login />
       ) : (
         <LayoutBasic>
-          <>
-            <HeadComponent title="Instagram" />
-          </>
+          <HeadComponent title="Instagram" />
           <div className="mt-4 block sm:flex max-w-[975px]">
             {/* left-content */}
             <div className="flex-1 sm:flex-[0.65_1_0%] flex flex-col gap-4 mb-4">

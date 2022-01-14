@@ -3,29 +3,52 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DotsHorizontalIcon, HeartIcon, ChatIcon, ChevronRightIcon, BookOpenIcon } from "@heroicons/react/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import CommentForm from "../Post/CommentForm";
 import moment from "moment";
+import axios from "axios";
+import { getToken } from "../../utils/localStorage";
 
-export default function PostModal() {
+export default function PostModal({ userAuth }) {
   const router = useRouter();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
+  const [reload, setReload] = useState(false);
+  const [isLike, setIsLike] = useState(false);
+  const postId = router.query.id;
+  
 
   useEffect(() => {
     async function fetchPost() {
-      const res = await fetch(
-        `http://localhost:3000/api/post/${router.query.id}`
-      );
-      const data = await res.json();
-      setPost(data);
+      try {
+        const { data } = await axios.get(
+          `http://localhost:3000/api/post/${postId}`
+        );
+        setPost(data);
+      }catch (e) {
+        console.log(e.response);
+      }
     }
     fetchPost();
   }, []);
 
   useEffect(() => {
+    async function fetchLike() {
+      try {
+        const { data } = await axios.get(`http://localhost:3000/api/like/${userAuth?._id}/islike/${postId}`);
+        setIsLike(data.isLike);
+      }catch (e) {
+        console.log(e.response);
+      }
+    }
+    fetchLike();
+    setReload(false);
+  }, [reload])
+
+  useEffect(() => {
     async function fetchCommentsPost() {
       try {
-        const res = await fetch(`http://localhost:3000/api/post/comments/${router.query.id}`);
+        const res = await fetch(`http://localhost:3000/api/post/comments/${postId}`);
         if(res.status === 200) {
           const data = await res.json();
           setComments(data);
@@ -35,9 +58,52 @@ export default function PostModal() {
       }
     }
     fetchCommentsPost();
-  }, [])
+    setReload(false);
+  }, [reload])
 
   const timeAgo = (date) => moment(date).fromNow();
+
+  const addLike = async (idPost) => {
+    if(!idPost) return null;
+
+    try {
+      const data = { idPost }
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/add`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `${getToken()}`,
+        },
+        body: JSON.stringify(data),
+      })
+      if(res.status === 200) {
+        setReload(true);
+      }
+    }catch(e) {
+      console.log(e.response);
+    }
+  }
+
+  const deleteLike = async (idPost) => {
+    if(!idPost) return null;
+
+    try {
+      const data = { idPost }
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/delete`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `${getToken()}`,
+        },
+        body: JSON.stringify(data),
+      })
+      if(res.status === 200) {
+        setReload(true);
+      }
+    }catch(e) {
+      console.log(e.response);
+    }
+  }
 
   return (
     <div className="flex">
@@ -98,7 +164,7 @@ export default function PostModal() {
               </div>
               {/* comentarios */}
               {comments.length > 0 && (
-                  <div className="px-4 h-[274px] overflow-y-auto">
+                  <div className="px-4 max-h-[274px] overflow-y-auto">
                     {comments.map((item, index) => (
                       <div key={index} className="flex gap-4">
                         <div className="w-[28px] max-h-[28px]">
@@ -125,7 +191,11 @@ export default function PostModal() {
               {/* iconos */}
               <div className="p-4 flex items-center justify-between border-solid border-b-[1px] border-t-[1px] border-neutral-300">
                 <div className="flex items-center gap-2">
-                  <HeartIcon className="h-7 w-7"/>
+                  {!isLike ? (
+                    <HeartIcon className="h-7 w-7 hover:cursor-pointer" onClick={() => addLike(router.query.id)}/>
+                  ):(
+                    <HeartIconSolid className="h-7 w-7 hover:cursor-pointer text-red-500" onClick={() => deleteLike(router.query.id)}/>
+                  )}
                   <ChatIcon className="h-7 w-7" />
                   <ChevronRightIcon className="h-7 w-7"/>
                 </div>
@@ -134,7 +204,7 @@ export default function PostModal() {
                 </div>
               </div>
               {/* comentario bar */}
-              <CommentForm idPost={router.query.id} />
+              <CommentForm idPost={router.query.id} setReload={setReload}/>
             </div>
           </div>
         </>

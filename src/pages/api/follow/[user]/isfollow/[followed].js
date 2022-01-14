@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   const isFollow = await Follow.findOne({ idUser: user })
     .where("followed")
     .equals(userToFollowFound._id);
-  if (!isFollow) return res.status(200).send({ isFollow: false });
+  if (!isFollow) return res.status(200).json({ isFollow: false });
 
-  return res.status(200).send({ isFollow: true });
+  return res.status(200).json({ isFollow: true });
 }
