@@ -13,8 +13,8 @@ export default function ModalBasic({
     position: "absolute",
     top: "50%",
     left: "50%",
-    transform: "translate(-50%, -50%)",
     width,
+    transform: "translate(-50%, -50%)",
     boxShadow: 24,
   };
 
@@ -30,7 +30,7 @@ export default function ModalBasic({
               <h1 className="text-base text-center">{title}</h1>
             </div>
           )}
-          <div>{children}</div>
+          <div className="w-full">{children}</div>
         </Box>
       </Modal>
     </div>

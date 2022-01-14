@@ -8,6 +8,7 @@ import CommentForm from "../Post/CommentForm";
 import moment from "moment";
 import axios from "axios";
 import { getToken } from "../../utils/localStorage";
+import ModalBasic from "../Modal/ModalBasic";
 
 export default function PostModal({ userAuth }) {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function PostModal({ userAuth }) {
   const [reload, setReload] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const postId = router.query.id;
+  const [openOptionsPostModal, setOpenOptionsPostModal] = useState(false);
 
   useEffect(() => {
     async function fetchPost() {
@@ -109,13 +111,13 @@ export default function PostModal({ userAuth }) {
   }
 
   return (
-    <div className="flex">
+    <div className="w-full flex">
       {!post ? (
         <LinearProgress />
       ) : (
         <>
           {/* image */}
-          <div className="flex-[0.6_1_0%] max-h-[80vh]">
+          <div className="flex-1 md:flex-[0.6_1_0%] max-h-[80vh]">
             <div className="flex justify-center w-full h-full">
               <img
                 src={post?.url}
@@ -126,7 +128,7 @@ export default function PostModal({ userAuth }) {
           </div>
 
           {/* details */}
-          <div className="flex-[0.4_1_0%] bg-white flex flex-col justify-between">
+          <div className="hidden md:flex-[0.4_1_0%] bg-white md:flex flex-col justify-between">
             {/* top */}
             <div>
               {/* header */}
@@ -143,8 +145,22 @@ export default function PostModal({ userAuth }) {
                     <a className="font-semibold">{post?.idUser.username}</a>
                   </Link>
                 </div>
+                {/* opciones del post */}
                 <div>
-                  <DotsHorizontalIcon className="w-5 h-5" />
+                  <DotsHorizontalIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setOpenOptionsPostModal(true)}/>
+                  <ModalBasic 
+                    openModal={openOptionsPostModal}
+                    closeModal={() => setOpenOptionsPostModal(false)}
+                  >
+                    <div className="flex flex-col divide-y">
+                      <p className="py-3 text-center hover:cursor-pointer text-red-500 font-medium text-sm">Reportar</p>
+                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm" onClick={() => router.push(`/p/${post._id}`)}>Ir a la publicacion</p>
+                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm">Compartir en..</p>
+                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm">Copiar enlace</p>
+                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm">Insertar</p>
+                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm" onClick={() => setOpenOptionsPostModal(false)}>Cancelar</p>
+                    </div>
+                  </ModalBasic>
                 </div>
               </div>
               {/* post description */}

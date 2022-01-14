@@ -4,11 +4,13 @@ import ModalBasic from "../Modal/ModalBasic";
 import { useContextualRouting } from "next-use-contextual-routing";
 import PostModal from "./PostModal";
 import useAllUserAuth from "../../hooks/useAllUserAuth";
+import useScreenSize from "../../hooks/useScreenSize"
 
 export default function GridPost({ data }) {
   const router = useRouter();
   const { makeContextualHref, returnHref } = useContextualRouting();
   const { userAuth } = useAllUserAuth();
+  const width = useScreenSize();
 
   const closeModal = () => {
     router.push(returnHref);
@@ -39,8 +41,8 @@ export default function GridPost({ data }) {
       <ModalBasic
         openModal={!!router.query.id}
         closeModal={closeModal}
-        width={1000}
         border={false}
+        width={width >= 1024 ? 1000 : width >= 768 ? 740 : 400 }
       >
         <PostModal userAuth={userAuth}/>
       </ModalBasic>
