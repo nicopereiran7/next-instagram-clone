@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import ModalBasic from "../Modal/ModalBasic";
 import { useContextualRouting } from "next-use-contextual-routing";
 import PostModal from "./PostModal";
-import { useSelector } from "react-redux";
+import useAllUserAuth from "../../hooks/useAllUserAuth";
 
 export default function GridPost({ data }) {
   const router = useRouter();
   const { makeContextualHref, returnHref } = useContextualRouting();
-  const { userAuth } = useSelector(state => state.userAuth);
+  const { userAuth } = useAllUserAuth();
 
   const closeModal = () => {
     router.push(returnHref);

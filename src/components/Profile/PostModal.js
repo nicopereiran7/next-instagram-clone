@@ -16,15 +16,15 @@ export default function PostModal({ userAuth }) {
   const [reload, setReload] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const postId = router.query.id;
-  
 
   useEffect(() => {
     async function fetchPost() {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3000/api/post/${postId}`
-        );
-        setPost(data);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/post/${postId}`);
+        if(res.status === 200){
+          const result = await res.json();
+          setPost(result);
+        }
       }catch (e) {
         console.log(e.response);
       }
@@ -35,7 +35,7 @@ export default function PostModal({ userAuth }) {
   useEffect(() => {
     async function fetchLike() {
       try {
-        const { data } = await axios.get(`http://localhost:3000/api/like/${userAuth?._id}/islike/${postId}`);
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/${userAuth?._id}/islike/${postId}`);
         setIsLike(data.isLike);
       }catch (e) {
         console.log(e.response);
@@ -48,7 +48,7 @@ export default function PostModal({ userAuth }) {
   useEffect(() => {
     async function fetchCommentsPost() {
       try {
-        const res = await fetch(`http://localhost:3000/api/post/comments/${postId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/post/comments/${postId}`);
         if(res.status === 200) {
           const data = await res.json();
           setComments(data);
