@@ -3,6 +3,7 @@ import ModalBasic from "../Modal/ModalBasic";
 import { useDropzone } from "react-dropzone";
 import { getToken } from "../../utils/localStorage";
 import { CircularProgress } from "@mui/material";
+import { toast } from "react-toastify";
 
 export default function EditAvatarProfile({ userAuth }) {
   const [openModal, setOpenModal] = useState(false);
@@ -26,19 +27,23 @@ export default function EditAvatarProfile({ userAuth }) {
       data.append("data", file);
 
       const headers = new Headers({
-        Authorization: `${getToken()}`,
+        "Authorization": `${getToken()}`,
       });
-      const res = await fetch("http://localhost:3000/api/upload/avatar", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/upload/avatar`, {
         method: "POST",
         headers,
         body: data,
       });
 
-      const result = await res.json();
-
-      setIsUploadImage(false);
-      closeModal();
-      setReload(true);
+      if(res.status === 200) {
+        const result = await res.json();
+        setIsUploadImage(false);
+        toast.success(result.ok);
+        closeModal();
+        setReload(true);
+      }else {
+        toast.error("Error al subir imagen");
+      }
     } catch (error) {
       console.log(error);
       setIsUploadImage(false);
