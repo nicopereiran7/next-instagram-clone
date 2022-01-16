@@ -20,7 +20,7 @@ handler.post(async (req, res) => {
     const { data } = req.body;
     const form = JSON.parse(data);
     const { authorization: token } = req.headers;
-    const user = jwt.verify(token, process.env.SECRET_KEY);
+    const user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
 
     const { mimetype, filepath } = await file;
     const extension = mimetype.split("/")[1];
@@ -43,7 +43,7 @@ handler.post(async (req, res) => {
       status: true,
       post: postSaved
     });
-    // return res.status(200).json({ file, data })
+    // return res.status(200).json({ file, data: form, token, user })
 
   } catch (e) {
     return res.status(400).json({ status: false, error: e.message });

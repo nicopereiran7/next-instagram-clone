@@ -23,8 +23,8 @@ function Post({ post }) {
           <div>
             {/* header */}
             <div className="flex items-center justify-between px-3 py-4 gap-4  border-solid border-b-[1px] border-neutral-300">
-              <div className="w-[40px]">
-                <img src={post.idUser.avatar || "/assets/avatar.png"} alt={post.idUser.name} className="w-full object-cover rounded-full"/>
+              <div className="w-[40px] h-[30px]">
+                <img src={post.idUser.avatar || "/assets/avatar.png"} alt={post.idUser.name} className="w-full h-full object-cover rounded-full"/>
               </div>
               <div className="w-full flex justify-start">
                 <Link href={`/${post.idUser.username}`}>
@@ -37,8 +37,8 @@ function Post({ post }) {
             </div>
             {/* post description */}
             <div className="flex gap-4 px-3 py-5">
-              <div className="w-[28px]">
-                <img src={post.idUser.avatar || "/assets/avatar.png"} alt={post.idUser.name} className="w-full object-cover rounded-full"/>
+              <div className="w-[28px] h-[28px]">
+                <img src={post.idUser.avatar || "/assets/avatar.png"} alt={post.idUser.name} className="w-full h-full object-cover rounded-full"/>
               </div>
               <div>
                 <p className="text-sm"><span className="font-semibold">{`${post.idUser.username} `}</span>{post.description}</p>

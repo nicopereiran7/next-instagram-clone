@@ -6,9 +6,8 @@ import { DotsHorizontalIcon, HeartIcon, ChatIcon, ChevronRightIcon, BookOpenIcon
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import CommentForm from "../Post/CommentForm";
 import moment from "moment";
-import axios from "axios";
 import { getToken } from "../../utils/localStorage";
-import ModalBasic from "../Modal/ModalBasic";
+import PostOptions from "../Post/PostOptions";
 
 export default function PostModal({ userAuth }) {
   const router = useRouter();
@@ -65,6 +64,8 @@ export default function PostModal({ userAuth }) {
     fetchCommentsPost();
     setReload(false);
   }, [reload])
+
+  const closeModalOptions = () => setOpenOptionsPostModal(false);
 
   const timeAgo = (date) => moment(date).fromNow();
 
@@ -148,19 +149,7 @@ export default function PostModal({ userAuth }) {
                 {/* opciones del post */}
                 <div>
                   <DotsHorizontalIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setOpenOptionsPostModal(true)}/>
-                  <ModalBasic 
-                    openModal={openOptionsPostModal}
-                    closeModal={() => setOpenOptionsPostModal(false)}
-                  >
-                    <div className="flex flex-col divide-y">
-                      <p className="py-3 text-center hover:cursor-pointer text-red-500 font-medium text-sm">Reportar</p>
-                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm" onClick={() => router.push(`/p/${post._id}`)}>Ir a la publicacion</p>
-                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm">Compartir en..</p>
-                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm">Copiar enlace</p>
-                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm">Insertar</p>
-                      <p className="py-3 text-center hover:cursor-pointer font-light text-sm" onClick={() => setOpenOptionsPostModal(false)}>Cancelar</p>
-                    </div>
-                  </ModalBasic>
+                  <PostOptions openOptionsPostModal={openOptionsPostModal} closeModalOptions={closeModalOptions} idPost={post._id}/>
                 </div>
               </div>
               {/* post description */}

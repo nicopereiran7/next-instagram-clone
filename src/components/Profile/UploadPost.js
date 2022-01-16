@@ -41,21 +41,25 @@ export default function UploadPost({ openModal, closeModal }) {
         data.append("data", JSON.stringify(formData));
 
         const headers = new Headers({
-          Authorization: `${getToken()}`,
+          "Authorization": `${getToken()}`,
         });
 
-        const res = await fetch("http://localhost:3000/api/post/new", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/post/new`, {
           method: "POST",
           headers,
           body: data,
         });
 
-        //const result = await res.json();
+        if(res.status === 200) {
+          // const result = await res.json();
+          setIsLoading(false);
 
-        setIsLoading(false);
-        setFileUpload(null);
-        resetForm();
-        closeModal();
+          setFileUpload(null);
+          resetForm();
+          closeModal();
+        }else {
+          setIsLoading(false);
+        }
       } catch (e) {
         console.log(e);
         setIsLoading(false);
@@ -158,7 +162,7 @@ export default function UploadPost({ openModal, closeModal }) {
                       </>
                     ) : (
                       <p className="w-full py-2 text-[#3799F7] flex items-center">
-                        <CircularProgress size={14} className="mt-2" />
+                        <CircularProgress size={14} className="mt-2 ml-2 mr-2" />
                         Publicando...
                       </p>
                     )}

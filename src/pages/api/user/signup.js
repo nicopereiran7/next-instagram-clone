@@ -42,6 +42,7 @@ export default async function handler(req, res) {
     description: null,
     avatar: null,
     isActive: false,
+    createdAt: Date.now(),
   });
 
   try {

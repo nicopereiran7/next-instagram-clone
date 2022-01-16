@@ -3,7 +3,7 @@ import { dbConnect } from "../../../config/db";
 import parseFile from "../../../middlewares/parseFile";
 import nextConnect from "next-connect";
 import fs from "fs";
-import { awsUploadImage } from "../../../utils/aws-upload-image";
+import { awsUploadImage, awsDeleteImage } from "../../../utils/aws-upload-image";
 import jwt from "jsonwebtoken";
 import User from "../../../models/user";
 
@@ -23,6 +23,12 @@ handler.post(async (req, res) => {
     const extension = mimetype.split("/")[1];
     const imageName = `avatar/${user.username}.${extension}`;
     const fileContent = fs.createReadStream(filepath);
+
+    // const avatarUserFound = await User.findById(user.id).exec();
+    // if(avatarUserFound.avatar) {
+    //   const nameFileAvatar = avatarUserFound.avatar.split("/")[4];
+    //   await awsDeleteImage(nameFileAvatar);
+    // }
     const result = await awsUploadImage(fileContent, imageName);
 
     await User.findByIdAndUpdate(user.id, { avatar: result }).exec();

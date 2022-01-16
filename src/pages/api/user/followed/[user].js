@@ -5,6 +5,7 @@ import { dbConnect } from "../../../../config/db";
 
 dbConnect();
 
+// obtener usuario que siguen a un usuario
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
 

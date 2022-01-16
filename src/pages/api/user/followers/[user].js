@@ -2,6 +2,7 @@ import { cors, runMiddleware } from "../../../../middlewares/cors";
 import User from "../../../../models/user";
 import Follow from "../../../../models/follow";
 
+//obtener seguidores de un usuario
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
 

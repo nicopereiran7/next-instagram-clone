@@ -4,14 +4,17 @@ import { useDropzone } from "react-dropzone";
 import { getToken } from "../../utils/localStorage";
 import { CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
-
+import { useDispatch } from "react-redux";
+import { setUserAuthAllData } from "../../store/slices/userAuthSlice";
+ 
 export default function EditAvatarProfile({ userAuth }) {
   const [openModal, setOpenModal] = useState(false);
   const [isUploadImage, setIsUploadImage] = useState(false);
   const [reload, setReload] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setReload(false);
+    dispatch(setUserAuthAllData());
   }, [reload]);
 
   const closeModal = () => {

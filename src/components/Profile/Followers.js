@@ -62,7 +62,7 @@ const Seguir = ({ userAuth, username }) => {
         <button className="py-1 px-4 bg-red-500 text-white text-sm rounded-[4px">
           <UserRemoveIcon className="w-4 h-4"/>
         </button>
-      ) : (
+      ) : userAuth.username !== username && (
         <button className="py-1 px-4 bg-[#3799F7] text-white text-sm rounded-[4px]">
           Seguir
         </button>

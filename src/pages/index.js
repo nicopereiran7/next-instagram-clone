@@ -1,7 +1,6 @@
 import HeadComponent from "../components/HeadComponent";
 import Login from "../components/Login";
-import LayoutBasic from "../layouts/LayoutBasic";
-import FeedPost from "../components/Home/FeedPost";
+import LayoutBasic from "../layouts/LayoutBasic";;
 import AvatarProfile from "../components/AvatarProfile";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
@@ -9,17 +8,52 @@ import useUserAuth from "../hooks/useUserAuth";
 import useAllUserAuth from "../hooks/useAllUserAuth";
 import Loading from "../components/Loading";
 import { LinearProgress } from "@mui/material";
+import Feed from "../components/Feed";
+import useFeed from "../hooks/useFeed";
 
 const FEED = [
-  { id: 1, username: "Nicolas" },
-  { id: 2, username: "Nicolas" },
-  { id: 2, username: "Nicolas" },
-  { id: 4, username: "Nicolas" },
+  { 
+    _id: 1, 
+    idUser: {
+      username: "Nicolas",
+      avatar: null
+    },
+    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
+    description: "hola"
+  },
+  { 
+    _id: 2, 
+    idUser: {
+      username: "Sebastian",
+      avatar: null
+    },
+    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
+    description: "hola"
+  },
+  { 
+    _id: 3, 
+    idUser: {
+      username: "Cristobal",
+      avatar: null
+    },
+    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
+    description: "hola"
+  },
+  { 
+    _id: 4, 
+    idUser: {
+      username: "David",
+      avatar: null
+    },
+    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
+    description: "hola"
+  },
 ];
 
 function Home() {
   const { user, isLoading } = useUserAuth();
   const { userAuth, userAuthIsLoading } = useAllUserAuth();
+  const { feedList, feedIsLoading } = useFeed();
   const router = useRouter();
 
   if (isLoading) return <Loading />;
@@ -35,9 +69,7 @@ function Home() {
           <div className="mt-4 block sm:flex max-w-[975px]">
             {/* left-content */}
             <div className="flex-1 sm:flex-[0.65_1_0%] flex flex-col gap-4 mb-4">
-              {FEED.map((post, index) => (
-                <FeedPost key={index} post={post} />
-              ))}
+              <Feed userAuth={userAuth} data={feedList.length === 0 ? FEED : feedList} feedIsLoading={feedIsLoading}/>
             </div>
 
             {/* right-content  */}

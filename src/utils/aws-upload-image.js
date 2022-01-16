@@ -24,3 +24,18 @@ export async function awsUploadImage(file, filePath) {
     throw new Error();
   }
 }
+
+export async function awsDeleteImage(nameFile) {
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: `${nameFile}`
+  };
+
+  try {
+    const response = await s3.deleteObject(params).promise();
+    return response.DeleteMarker;
+  }catch(e) {
+    console.log(e);
+    throw new Error();
+  }
+}

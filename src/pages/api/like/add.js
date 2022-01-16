@@ -3,14 +3,15 @@ import { dbConnect } from "../../../config/db";
 import jwt from "jsonwebtoken";
 import Like from "../../../models/like";
 
-export default async function(req, res) {
+export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
   await dbConnect();
 
   if(req.method !== "POST") return res.status(400).send({ error: "Metodo no soportado" });
 
   try {
-    const data = req.body;
+    const body = req.body;
+    const data = JSON.parse(body)
     const { authorization: token } = req.headers;
     const user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
     const newLike = new Like({

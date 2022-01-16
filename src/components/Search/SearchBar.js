@@ -65,14 +65,17 @@ export default function SearchBar(props) {
         >
           {autocompleteState.collections.map((collection, index) => {
             const { items } = collection;
+
             return (
               <section key={index}>
-                {items.length > 0 && (
+                {items.length > 1 ? (
                   <ul {...autocomplete.getListProps()}>
                     {items.map((item, index) => (
                       <AutocompleteItem key={index} {...item} />
                     ))}
                   </ul>
+                ) : (
+                  <h3 className="text-center py-2 text-sm">No hay resultados de busqueda</h3>
                 )}
               </section>
             );
