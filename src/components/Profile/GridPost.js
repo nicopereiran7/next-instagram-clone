@@ -37,7 +37,6 @@ export default function GridPost({ data }) {
                 ) : (
                   <VideoThumbnail 
                     preview={item.url}
-                    muted={true}
                     width="100%"
                     badgeBg="transparent"
                     muted={false}
