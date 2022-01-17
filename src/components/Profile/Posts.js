@@ -60,7 +60,7 @@ export default function Posts({ user, posts }) {
         <div
           className={`flex items-center justify-center gap-1 hover:cursor-pointer ${
             router.asPath.replace("/", "") === user?.username &&
-            "text-[#3799F7]"
+            "text-black"
           }`}
         >
           <ViewGridIcon className="w-4 h-4" />

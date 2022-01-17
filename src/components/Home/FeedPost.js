@@ -11,12 +11,17 @@ import { useEffect, useState } from "react";
 import moment from "moment"
 import { useRouter } from "next/router";
 import { getToken } from "../../utils/localStorage";
+import ReactPlayer from "react-player";
+import { useInView } from "react-intersection-observer";
 
 export default function FeedPost({ post, userAuth }) {
   const [openOptionsPostModal, setOpenOptionsPostModal] = useState(false);
   const [isLike, setIsLike] = useState(false);
   const [reloadFeedPost, setReloadFeedPost] = useState(false);
   const router = useRouter();
+  const [ref, inView] = useInView({
+    threshold: 1
+  })
 
   useEffect(() => {
     async function fetchLikePost() {
@@ -97,13 +102,30 @@ export default function FeedPost({ post, userAuth }) {
           <DotsHorizontalIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setOpenOptionsPostModal(true)}/>
         </div>
       </div>
-      {/* imagen post */}
-      <div>
-        <img
-          src={post.url}
-          alt={post.idUser.username}
-          className="w-full object-cover"
-        />
+      {/* imagen / viodeo post */}
+      <div className="w-full" >
+        {post?.type === "image" ? (
+          <img
+            src={post.url}
+            alt={post.idUser.username}
+            className="w-full object-cover"
+          />
+        ) : (
+          // <video className="w-full object-cover" ref={ref} controls={true} loop={true} autoPlay={inView}>
+          //   <source src={post.url} type="video/mp4" />
+          // </video>
+          <div className="w-full" ref={ref}> 
+            <ReactPlayer 
+              url={post.url}
+              controls={true}
+              playsinline={true}
+              playing={inView}
+              width="100%"
+              height="100%"
+            />
+          </div>
+        )}
+        
       </div>
       {/* info post */}
       <div className="px-4 pt-4">
@@ -125,7 +147,7 @@ export default function FeedPost({ post, userAuth }) {
         </div>
         <div className="py-2 flex flex-col">
           <p className="text-sm">
-            <span className="font-semibold hover:underline hover:cursor-pointer" onClikc={() => router.push(`/${post.idUser.username}`)}>
+            <span className="font-semibold hover:underline hover:cursor-pointer" onClick={() => router.push(`/${post.idUser.username}`)}>
               {post.idUser.username}
             </span>
             {` ${post.description}`}

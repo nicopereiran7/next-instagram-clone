@@ -60,14 +60,14 @@ function Username({ data, error }) {
       ) : (
         <>
           {/* PROFILE INFO */}
-          <div className="w-full inline-block sm:flex p-4 sm:p-8 mb-4">
+          <div className="w-full inline-block md:flex p-4 sm:p-8 mb-4">
             {/* -- avatar image --*/}
             <div className="flex-[0.3_1_0%] px-0 sm:px-10 ">
-              <div className="w-[100px] sm:w-[170px] sm:h-[170px]">
+              <div className="w-[100px] sm:w-[170px]">
                 <img
                   src={userFound?.avatar || "/assets/avatar.png"}
                   alt={userFound?.username}
-                  className="w-full h-full rounded-full"
+                  className="w-full aspect-1 rounded-full object-cover"
                 />
               </div>
             </div>

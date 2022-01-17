@@ -4,7 +4,8 @@ import ModalBasic from "../Modal/ModalBasic";
 import { useContextualRouting } from "next-use-contextual-routing";
 import PostModal from "./PostModal";
 import useAllUserAuth from "../../hooks/useAllUserAuth";
-import useScreenSize from "../../hooks/useScreenSize"
+import useScreenSize from "../../hooks/useScreenSize";
+import VideoThumbnail from "react-thumbnail-player";
 
 export default function GridPost({ data }) {
   const router = useRouter();
@@ -18,20 +19,31 @@ export default function GridPost({ data }) {
 
   return (
     <>
-      <div className="grid gap-1 sm:gap-[20px] grid-cols-2 sm:grid-cols-3 px-1 sm:px-0">
+      <div className="grid gap-1 grid-cols-2 px-1 sm:gap-1 sm:grid-cols-3 sm:px-2 md:gap-4 md:px-0">
         {data?.map((item, index) => (
-          <div key={index} className="w-full">
+          <div key={index} className="w-full h-full aspect-1">
             <Link
               href={makeContextualHref({ id: item._id })}
               as={`/p/${item._id}`}
               shallow
             >
-              <a>
-                <img
-                  src={item.url}
-                  alt={item.title}
-                  className="w-full object-cover aspect-1 hover:cursor-pointer"
-                />
+              <a className="">
+                {item.type === "image" ? (
+                  <img
+                    src={item.url}
+                    alt={item.description}
+                    className="w-full object-cover aspect-1 hover:cursor-pointer"
+                  />
+                ) : (
+                  <VideoThumbnail 
+                    preview={item.url}
+                    muted={true}
+                    width="100%"
+                    badgeBg="transparent"
+                    muted={false}
+                  />
+                )}
+                
               </a>
             </Link>
           </div>

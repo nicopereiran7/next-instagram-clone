@@ -1,6 +1,7 @@
 import { UserIcon, ReceiptRefundIcon, CogIcon } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { logOut } from "../../store/slices/userSlice";
+import { setFeed } from "../../store/slices/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function DropdownProfileNavOptions() {
@@ -10,6 +11,7 @@ export default function DropdownProfileNavOptions() {
 
   const cerrarSesion = () => {
     dispatch(logOut());
+    dispatch(setFeed([]));
     router.push("/");
   };
 

@@ -3,11 +3,11 @@ import { dbConnect } from "../../../../config/db";
 import Post from "../../../../models/post";
 import User from "../../../../models/user";
 
-dbConnect();
-
+// OBTENER LOS POSTS DEL USUARIO
 // http://localhost:3000/api/user/posts/1412041041
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
+  await dbConnect();
 
   if (req.method !== "GET")
     return res.status(400).send({ error: "Metodo no soportado" });
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const { user: username } = req.query;
 
   const userFound = await User.findOne({ username }).exec();
-  const posts = await Post.find({ idUser: userFound._id }).sort({date: -1}).exec();
+  const posts = await Post.find({ idUser: userFound._id }).sort({ createdAt: -1 }).exec();
 
   if (!posts) return res.status(404).send({ error: "Error al obtener posts" });
 

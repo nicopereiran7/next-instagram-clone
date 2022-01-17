@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.styles_video__fdeKk .styles_preview__2cXKK {
+  border-radius: 0 !important;
+  object-fit: cover;
+  aspect-ratio: 1;
+}
+
+.styles_badge__3dxZ6  {
+  right: 0px !important;
+  border-top: 8px solid transparent !important;
+  border-left: 12px solid rgb(255, 255, 255) !important;
+  border-bottom: 8px solid transparent !important;
+}
+
+.styles_title__1cca0, .styles_views__2l1fl {
+  display: none !important;
+}

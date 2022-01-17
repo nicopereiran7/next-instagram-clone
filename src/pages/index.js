@@ -11,52 +11,13 @@ import { LinearProgress } from "@mui/material";
 import Feed from "../components/Feed";
 import useFeed from "../hooks/useFeed";
 
-const FEED = [
-  { 
-    _id: 1, 
-    idUser: {
-      username: "Nicolas",
-      avatar: null
-    },
-    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
-    description: "hola"
-  },
-  { 
-    _id: 2, 
-    idUser: {
-      username: "Sebastian",
-      avatar: null
-    },
-    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
-    description: "hola"
-  },
-  { 
-    _id: 3, 
-    idUser: {
-      username: "Cristobal",
-      avatar: null
-    },
-    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
-    description: "hola"
-  },
-  { 
-    _id: 4, 
-    idUser: {
-      username: "David",
-      avatar: null
-    },
-    url: "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg",
-    description: "hola"
-  },
-];
-
 function Home() {
   const { user, isLoading } = useUserAuth();
   const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const { feedList, feedIsLoading } = useFeed();
   const router = useRouter();
 
-  if (isLoading) return <Loading />;
+  if (isLoading && feedIsLoading) return <Loading />;
 
   return (
     <div>
@@ -69,7 +30,7 @@ function Home() {
           <div className="mt-4 block sm:flex max-w-[975px]">
             {/* left-content */}
             <div className="flex-1 sm:flex-[0.65_1_0%] flex flex-col gap-4 mb-4">
-              <Feed userAuth={userAuth} data={feedList.length === 0 ? FEED : feedList} feedIsLoading={feedIsLoading}/>
+              <Feed userAuth={userAuth} data={feedList} feedIsLoading={feedIsLoading}/>
             </div>
 
             {/* right-content  */}

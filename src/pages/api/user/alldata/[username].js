@@ -13,9 +13,9 @@ export default async function handler(req, res) {
     case "GET":
       const { username } = req.query;
       const userFound = await User.findOne({ username }).exec();
-      const followers = await Follow.find({ followed: userFound._id }).populate("idUser").exec();
-      const followed = await Follow.find({ idUser: userFound._id }).populate("followed").exec();
-      const posts = await Post.find({ idUser: userFound._id }).exec();
+      const followers = await Follow.find({ followed: userFound._id }).populate("idUser");
+      const followed = await Follow.find({ idUser: userFound._id }).populate("followed");
+      const posts = await Post.find({ idUser: userFound._id }).sort({ createdAt: -1 });
       // const countPosts = await Post.countDocuments({ idUser: userFound._id }).exec();
 
       if (!userFound)

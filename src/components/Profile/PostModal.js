@@ -8,6 +8,7 @@ import CommentForm from "../Post/CommentForm";
 import moment from "moment";
 import { getToken } from "../../utils/localStorage";
 import PostOptions from "../Post/PostOptions";
+import ReactPlayer from "react-player";
 
 export default function PostModal({ userAuth }) {
   const router = useRouter();
@@ -117,14 +118,25 @@ export default function PostModal({ userAuth }) {
         <LinearProgress />
       ) : (
         <>
-          {/* image */}
+          {/* image - video */}
           <div className="flex-1 md:flex-[0.6_1_0%] max-h-[80vh]">
             <div className="flex justify-center w-full h-full">
-              <img
-                src={post?.url}
-                alt={post?.idUser.name}
-                className="w-full object-cover"
-              />
+              {post.type === "image" ? (
+                <img
+                  src={post?.url}
+                  alt={post?.idUser.name}
+                  className="w-full object-cover"
+                />
+              ) : (
+                <ReactPlayer 
+                  url={post.url}
+                  controls={true}
+                  playsinline={true}
+                  loop={true}
+                  width="100%"
+                  height="100%"
+                />
+              )}
             </div>
           </div>
 
@@ -138,7 +150,7 @@ export default function PostModal({ userAuth }) {
                   <img
                     src={post?.idUser.avatar || "/assets/avatar.png"}
                     alt={post?.idUser.name}
-                    className="w-full object-cover rounded-full"
+                    className="w-full aspect-1 h-full object-cover rounded-full"
                   />
                 </div>
                 <div className="w-full flex justify-start">
@@ -158,7 +170,7 @@ export default function PostModal({ userAuth }) {
                   <img
                     src={post?.idUser.avatar || "/assets/avatar.png"}
                     alt={post?.idUser.name}
-                    className="w-full object-cover rounded-full"
+                    className="w-full aspect-1 object-cover rounded-full"
                   />
                 </div>
                 <div>
