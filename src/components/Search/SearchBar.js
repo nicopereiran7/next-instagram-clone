@@ -68,7 +68,7 @@ export default function SearchBar(props) {
 
             return (
               <section key={index}>
-                {items.length > 1 ? (
+                {!items[0].error ? (
                   <ul {...autocomplete.getListProps()}>
                     {items.map((item, index) => (
                       <AutocompleteItem key={index} {...item} />

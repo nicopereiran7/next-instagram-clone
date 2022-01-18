@@ -5,7 +5,8 @@ import { dbConnect } from "../../../../config/db";
 
 dbConnect();
 
-// obtener usuario que siguen a un usuario
+// obtener usuarios que siguen a un usuario
+// http://localhost:300/api/user/followed/[usuario]
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
 

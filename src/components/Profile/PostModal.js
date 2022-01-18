@@ -119,7 +119,7 @@ export default function PostModal({ userAuth }) {
       ) : (
         <>
           {/* image - video */}
-          <div className="flex-1 md:flex-[0.6_1_0%] max-h-[80vh]">
+          <div className="flex-1 md:flex-[0.6_1_0%] max-h-[706px] max-w-[706px]">
             <div className="flex justify-center w-full h-full">
               {post.type === "image" ? (
                 <img

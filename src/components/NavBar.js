@@ -21,7 +21,7 @@ export default function NavBar() {
   const closePostModal = () => setOpenPostModal(false);
 
   return (
-    <nav className="flex justify-center bg-white sticky top-0 z-10">
+    <nav className="flex justify-center bg-white sticky top-0 z-10 px-4 lg:px-0">
       <div className="w-[975px]">
         <div className="flex items-center justify-between py-3 w-full">
           {/*LEFT */}
@@ -58,9 +58,9 @@ export default function NavBar() {
                 openModal={openPostModal}
                 closeModal={closePostModal}
               />
-              <SunIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
+              <SunIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" onClick={() => router.push("/explore")} />
               <HeartIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
-              <div className="w-6 h-6 mx-2 hover:cursor-pointer dropdown inline-block relative">
+              <div className="w-6 h-6 ml-2 hover:cursor-pointer dropdown inline-block relative">
                 <img
                   src={userAuth?.avatar || "/assets/avatar.png"}
                   alt=""

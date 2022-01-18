@@ -8,7 +8,8 @@ import {
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import PostOptions from "../Post/PostOptions";
 import { useEffect, useState } from "react";
-import moment from "moment"
+import moment from "moment";
+import esLocale from "moment/locale/es";
 import { useRouter } from "next/router";
 import { getToken } from "../../utils/localStorage";
 import ReactPlayer from "react-player";
@@ -20,8 +21,9 @@ export default function FeedPost({ post, userAuth }) {
   const [reloadFeedPost, setReloadFeedPost] = useState(false);
   const router = useRouter();
   const [ref, inView] = useInView({
-    threshold: 1
-  })
+    threshold: 1,
+  });
+  moment.locale("es", [esLocale]);
 
   useEffect(() => {
     async function fetchLikePost() {
@@ -88,11 +90,11 @@ export default function FeedPost({ post, userAuth }) {
     <div className="w-full bg-white border-solid border-[1px] border-neutral-300">
       {/* header post */}
       <div className="p-4 flex items-center justify-between">
-        <div className="w-10 h-9">
+        <div className="w-12">
           <img
             src={post.idUser.avatar || "https://wololosound.com/wp-content/uploads/f2yQlPi4-1-1080x1080.jpeg"}
             alt={post.idUser.username}
-            className="w-full h-full object-cover rounded-full"
+            className="w-full h-full aspect-1 object-cover rounded-full"
           />
         </div>
         <div className="flex items-start w-full pl-4">

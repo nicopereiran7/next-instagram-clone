@@ -10,14 +10,18 @@ import Loading from "../components/Loading";
 import { LinearProgress } from "@mui/material";
 import Feed from "../components/Feed";
 import useFeed from "../hooks/useFeed";
+import useStories from "../hooks/useStories";
+import Stories from "../components/Home/Stories";
+import Suggestions from "../components/Home/Suggestions";
 
 function Home() {
   const { user, isLoading } = useUserAuth();
   const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const { feedList, feedIsLoading } = useFeed();
+  const { stories, isLoadingStories } = useStories();
   const router = useRouter();
 
-  if (isLoading && feedIsLoading) return <Loading />;
+  if (isLoading && feedIsLoading && isLoadingStories) return <Loading />;
 
   return (
     <div>
@@ -27,37 +31,40 @@ function Home() {
       ) : (
         <LayoutBasic>
           <HeadComponent title="Instagram" />
-          <div className="mt-4 block sm:flex max-w-[975px]">
+          <div className="mt-4 flex justify-center md:flex max-w-[975px]">
             {/* left-content */}
-            <div className="flex-1 sm:flex-[0.65_1_0%] flex flex-col gap-4 mb-4">
+            <div className="flex-1 md:flex-[0.65_1_0%] flex flex-col gap-4 mb-4 max-w-[600px]">
+              <Stories stories={stories}/>
               <Feed userAuth={userAuth} data={feedList} feedIsLoading={feedIsLoading}/>
             </div>
 
             {/* right-content  */}
-            <div className="hidden sm:flex-[0.35_1_0%] sm:block pl-6">
-              {/* profile */}
-              <div className="flex items-center justify-between py-4">
-                <div className="w-16 h-[51px]">
-                  {userAuthIsLoading ? (
-                    <LinearProgress />
-                  ) : (
-                    <AvatarProfile userAuth={userAuth} />
-                  )}
+            <div className="hidden md:flex-[0.35_1_0%] md:block pl-6">
+              <div className="sticky top-20">
+                {/* profile */}
+                <div className="flex items-center justify-between py-4">
+                  <div className="w-16 h-[51px]">
+                    {userAuthIsLoading ? (
+                      <LinearProgress />
+                    ) : (
+                      <AvatarProfile userAuth={userAuth} />
+                    )}
+                  </div>
+                  <div className="flex flex-col items-start justify-center w-full ml-4">
+                    <h1
+                      className="font-medium box-border hover:cursor-pointer"
+                      onClick={() => router.push(`/${user.username}`)}
+                    >
+                      {user.username}
+                    </h1>
+                    <h2 className="font-light">{user.name}</h2>
+                  </div>
                 </div>
-                <div className="flex flex-col items-start justify-center w-full ml-4">
-                  <h1
-                    className="font-medium box-border hover:cursor-pointer"
-                    onClick={() => router.push(`/${user.username}`)}
-                  >
-                    {user.username}
-                  </h1>
-                  <h2 className="font-light">{user.name}</h2>
-                </div>
+                {/* sugerencias */}
+                <Suggestions />
+                {/* footer-nav */}
+                <Footer />
               </div>
-              {/* sugerencias */}
-              <div>sugerencias</div>
-              {/* footer-nav */}
-              <Footer />
             </div>
           </div>
         </LayoutBasic>
