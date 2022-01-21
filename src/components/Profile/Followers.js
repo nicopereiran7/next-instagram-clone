@@ -14,11 +14,11 @@ export default function Followers({ followers, setOpenModal }) {
   };
 
   return (
-    <div className="py-2 px-4 flex flex-col gap-2">
+    <div className="py-2 px-4 flex flex-col gap-2 max-h-96 overflow-y-auto">
       {isLoading ? (
         <CircularProgress />
       ) : followers.map((item, index) => (
-        <div key={index} className="flex items-center justify-between gap-2">
+        <div key={index} className="h-full flex items-center justify-between gap-2">
           <div className="w-[66px] h-[30px] flex justify-center">
             <img
               src={

@@ -34,12 +34,12 @@ function Home() {
           <div className="mt-4 flex justify-center md:flex max-w-[975px]">
             {/* left-content */}
             <div className="flex-1 md:flex-[0.65_1_0%] flex flex-col gap-4 mb-4 max-w-[600px]">
-              <Stories stories={stories}/>
+              {stories.length > 0 && <Stories stories={stories}/>}
               <Feed userAuth={userAuth} data={feedList} feedIsLoading={feedIsLoading}/>
             </div>
 
             {/* right-content  */}
-            <div className="hidden md:flex-[0.35_1_0%] md:block pl-6">
+            <div className="hidden md:flex-[0.35_1_0%] md:block pl-7">
               <div className="sticky top-20">
                 {/* profile */}
                 <div className="flex items-center justify-between py-4">
@@ -61,7 +61,7 @@ function Home() {
                   </div>
                 </div>
                 {/* sugerencias */}
-                <Suggestions />
+                {!userAuthIsLoading && <Suggestions userAuth={userAuth} />}
                 {/* footer-nav */}
                 <Footer />
               </div>

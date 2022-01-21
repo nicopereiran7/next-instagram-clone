@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import DropdownProfileNavOptions from "./Profile/DropdownProfileNavOptions";
+import DropdownLikes from "./DropdownLikes";
 import SearchBar from "./Search/SearchBar";
 import useAllUserAuth from "../hooks/useAllUserAuth";
 import { useState } from "react";
@@ -15,7 +16,7 @@ import UploadPost from "./Profile/UploadPost";
 
 export default function NavBar() {
   const router = useRouter();
-  const { userAuth } = useAllUserAuth();
+  const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const [openPostModal, setOpenPostModal] = useState(false);
 
   const closePostModal = () => setOpenPostModal(false);
@@ -48,7 +49,10 @@ export default function NavBar() {
                 className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer"
                 onClick={() => router.push("/")}
               />
-              <ChatIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
+              <div className="dropdown inline-block relative">
+                <ChatIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" onClick={() => router.push("/direct/inbox")} />
+                <DropdownLikes userAuth={userAuth} userAuthIsLoading={userAuthIsLoading} />
+              </div>
               {/* nueva publicacion icon */}
               <PlusCircleIcon
                 className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer"

@@ -3,10 +3,10 @@ import { dbConnect } from "../../../../../config/db";
 import User from "../../../../../models/user";
 import Follow from "../../../../../models/follow";
 
-dbConnect();
-
+// dejar de seguir a un usuario
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
+  await dbConnect();
 
   if (req.method !== "POST")
     return res.status(400).send({ error: "Metodo no soportado" });

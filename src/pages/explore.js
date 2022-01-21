@@ -39,7 +39,7 @@ export default function Explore() {
           <CircularProgress size={14} />
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-2 py-5">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 py-5">
           {posts.map((post, index) => {
             let add = addClass(index);
 

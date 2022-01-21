@@ -23,7 +23,7 @@ export default function FeedPost({ post, userAuth }) {
   const [ref, inView] = useInView({
     threshold: 1,
   });
-  moment.locale("es", [esLocale]);
+  moment.updateLocale("es", [esLocale]);
 
   useEffect(() => {
     async function fetchLikePost() {
@@ -119,9 +119,10 @@ export default function FeedPost({ post, userAuth }) {
           <div className="w-full" ref={ref}> 
             <ReactPlayer 
               url={post.url}
-              controls={true}
+              controls={false}
               playsinline={true}
               playing={inView}
+              loop={true}
               width="100%"
               height="100%"
             />

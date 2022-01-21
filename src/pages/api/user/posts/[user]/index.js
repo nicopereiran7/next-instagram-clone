@@ -1,7 +1,7 @@
-import { cors, runMiddleware } from "../../../../middlewares/cors";
-import { dbConnect } from "../../../../config/db";
-import Post from "../../../../models/post";
-import User from "../../../../models/user";
+import { cors, runMiddleware } from "../../../../../middlewares/cors";
+import { dbConnect } from "../../../../../config/db";
+import Post from "../../../../../models/post";
+import User from "../../../../../models/user";
 
 // OBTENER LOS POSTS DEL USUARIO
 // http://localhost:3000/api/user/posts/1412041041
