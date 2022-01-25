@@ -3,6 +3,7 @@ import { dbConnect } from "../../../config/db";
 import User from "../../../models/user";
 import Follow from "../../../models/follow";
 
+// Seguir a un usuario
 export default async function handler(req, res) {
   await dbConnect();
   await runMiddleware(req, res, cors);

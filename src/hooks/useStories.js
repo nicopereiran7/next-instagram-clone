@@ -8,7 +8,7 @@ export default function useFeed() {
 
   useEffect(() => {
     let mounted = true;
-    if(mounted) {
+    if(mounted && !stories) {
       dispatch(fetchStories());
     }
 

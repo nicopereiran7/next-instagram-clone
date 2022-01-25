@@ -14,9 +14,9 @@ import useAllUserAuth from "../hooks/useAllUserAuth";
 import { useState } from "react";
 import UploadPost from "./Profile/UploadPost";
 
-export default function NavBar() {
+export default function NavBar({ userAuth, userAuthIsLoading }) {
   const router = useRouter();
-  const { userAuth, userAuthIsLoading } = useAllUserAuth();
+  // const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const [openPostModal, setOpenPostModal] = useState(false);
 
   const closePostModal = () => setOpenPostModal(false);
@@ -51,7 +51,6 @@ export default function NavBar() {
               />
               <div className="dropdown inline-block relative">
                 <ChatIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" onClick={() => router.push("/direct/inbox")} />
-                <DropdownLikes userAuth={userAuth} userAuthIsLoading={userAuthIsLoading} />
               </div>
               {/* nueva publicacion icon */}
               <PlusCircleIcon
@@ -63,7 +62,12 @@ export default function NavBar() {
                 closeModal={closePostModal}
               />
               <SunIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" onClick={() => router.push("/explore")} />
-              <HeartIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
+
+              <div className="dropdown inline-block relative">
+                <HeartIcon className="h-7 w-7 mx-2 translate-y-0 hover:translate-y-1 transition-transform hover:cursor-pointer" />
+                <DropdownLikes userAuth={userAuth} userAuthIsLoading={userAuthIsLoading} />
+              </div>
+              
               <div className="w-6 h-6 ml-2 hover:cursor-pointer dropdown inline-block relative">
                 <img
                   src={userAuth?.avatar || "/assets/avatar.png"}

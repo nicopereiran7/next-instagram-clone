@@ -3,12 +3,13 @@ import User from "../../../../models/user";
 import Follow from "../../../../models/follow";
 import { dbConnect } from "../../../../config/db";
 
-dbConnect();
-
 // obtener usuarios que siguen a un usuario
 // http://localhost:300/api/user/followed/[usuario]
 export default async function handler(req, res) {
   await runMiddleware(req, res, cors);
+  await dbConnect();
+
+  if(req.method !== "GET") return res.status(400).send({ error: "Metodo no soportado" });
 
   const { user } = req.query;
 

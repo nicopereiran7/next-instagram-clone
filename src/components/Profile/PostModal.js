@@ -113,19 +113,19 @@ export default function PostModal({ userAuth }) {
   }
 
   return (
-    <div className="w-full flex">
+    <div className="w-full flex max-h-[660px] min-h-[660px]">
       {!post ? (
         <LinearProgress />
       ) : (
         <>
           {/* image - video */}
-          <div className="flex-1 md:flex-[0.6_1_0%] max-h-[706px] min-h-[660px] max-w-[706px]">
-            <div className="flex justify-center items-center w-full min-h-full bg-black">
+          <div className="flex-1 md:flex-[0.6_1_0%]">
+            <div className="flex justify-center items-center w-full h-full bg-black">
               {post.type === "image" ? (
                 <img
                   src={post?.url}
                   alt={post?.idUser.name}
-                  className="w-full object-cover"
+                  className="object-cover"
                 />
               ) : (
                 <ReactPlayer 
@@ -143,7 +143,7 @@ export default function PostModal({ userAuth }) {
           {/* details */}
           <div className="hidden md:flex-[0.4_1_0%] bg-white md:flex flex-col justify-between">
             {/* top */}
-            <div>
+            <div className="h-full flex flex-col">
               {/* header */}
               <div className="flex items-center justify-between px-4 py-4 gap-4  border-solid border-b-[1px] border-neutral-300">
                 <div className="w-[40px]">
@@ -184,8 +184,8 @@ export default function PostModal({ userAuth }) {
               </div>
               {/* comentarios */}
               {comments.length > 0 && (
-                  <div className="px-4 max-h-[274px] overflow-y-auto">
-                    {comments.map((item, index) => (
+                <div className="px-4 max-h-[360px] overflow-y-auto">
+                  {comments.map((item, index) => (
                       <div key={index} className="flex gap-4">
                         <div className="w-[28px] max-h-[28px]">
                           <img
@@ -202,9 +202,10 @@ export default function PostModal({ userAuth }) {
                           <p className="text-[12px] py-4 text-[#B1B1B1]">{timeAgo(item.createdAt)}</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
+                      
+                  ))}
+                </div>
+              )}
             </div>
             {/* botton */}
             <div>

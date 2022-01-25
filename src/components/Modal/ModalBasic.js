@@ -27,7 +27,7 @@ export default function ModalBasic({
         >
           {haveTitle && (
             <div className="w-full py-4 border-solid border-b-[1px] border-neutral-200">
-              <h1 className="text-base text-center">{title}</h1>
+              <h1 className="text-base text-center font-medium">{title}</h1>
             </div>
           )}
           <div className="w-full">{children}</div>

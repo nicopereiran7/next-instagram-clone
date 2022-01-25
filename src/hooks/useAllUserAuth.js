@@ -7,7 +7,11 @@ export default function useUserAuth() {
   const { userAuth, userAuthIsLoading } = useSelector((store) => store.userAuth);
 
   useEffect(() => {
-    dispatch(setUserAuthAllData());
+    let mounted = true;
+    if (mounted && !userAuth) {
+      dispatch(setUserAuthAllData());
+    }
+    return () => mounted = false;
   }, []);
 
   return {

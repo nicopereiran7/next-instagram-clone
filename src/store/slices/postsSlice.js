@@ -5,7 +5,7 @@ import { decodeToken } from "../../utils/token";
 export const postsSlice = createSlice({
   name: "postsSlice",
   initialState: {
-    feedList: [],
+    feedList: null,
     feedIsLoading: true
   },
   reducers: {

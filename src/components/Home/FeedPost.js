@@ -104,6 +104,7 @@ export default function FeedPost({ post, userAuth }) {
           <DotsHorizontalIcon className="w-5 h-5 hover:cursor-pointer" onClick={() => setOpenOptionsPostModal(true)}/>
         </div>
       </div>
+
       {/* imagen / viodeo post */}
       <div className="w-full" >
         {post?.type === "image" ? (
@@ -113,9 +114,6 @@ export default function FeedPost({ post, userAuth }) {
             className="w-full object-cover"
           />
         ) : (
-          // <video className="w-full object-cover" ref={ref} controls={true} loop={true} autoPlay={inView}>
-          //   <source src={post.url} type="video/mp4" />
-          // </video>
           <div className="w-full" ref={ref}> 
             <ReactPlayer 
               url={post.url}
@@ -130,6 +128,7 @@ export default function FeedPost({ post, userAuth }) {
         )}
         
       </div>
+
       {/* info post */}
       <div className="px-4 pt-4">
         {/* icons */}

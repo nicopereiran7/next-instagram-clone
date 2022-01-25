@@ -15,13 +15,11 @@ import Stories from "../components/Home/Stories";
 import Suggestions from "../components/Home/Suggestions";
 
 function Home() {
-  const { user, isLoading } = useUserAuth();
+  const { user } = useUserAuth();
   const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const { feedList, feedIsLoading } = useFeed();
   const { stories, isLoadingStories } = useStories();
   const router = useRouter();
-
-  if (isLoading && feedIsLoading && isLoadingStories) return <Loading />;
 
   return (
     <div>
@@ -34,7 +32,7 @@ function Home() {
           <div className="mt-4 flex justify-center md:flex max-w-[975px]">
             {/* left-content */}
             <div className="flex-1 md:flex-[0.65_1_0%] flex flex-col gap-4 mb-4 max-w-[600px]">
-              {stories.length > 0 && <Stories stories={stories}/>}
+              {stories?.length > 0 && <Stories stories={stories}/>}
               <Feed userAuth={userAuth} data={feedList} feedIsLoading={feedIsLoading}/>
             </div>
 

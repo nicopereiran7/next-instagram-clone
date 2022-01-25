@@ -2,18 +2,33 @@ import HeadComponent from "../../components/HeadComponent";
 import LayoutBasic from "../../layouts/LayoutBasic";
 import { DotsHorizontalIcon } from "@heroicons/react/outline";
 import Link from "next/link";
+import ReactPlayer from "react-player";
+import PageNotFound from "../../components/PageNotFound";
 
-function Post({ post }) {
+function Post({ post, error }) {
+  if(error && error.statusCode) return <PageNotFound details="Post No Encontrado" />;
+
   return (
     <LayoutBasic>
       <HeadComponent title={post ? `${post.idUser.name} en Instagram: ${post.description}` : "Instagram"}/>
       
       {/* POST */}
-      <div className="flex my-4 border-solid border-[1px] border-neutral-300">
+      <div className="flex my-4 border-solid border-[1px] border-neutral-300 min-h-[80vh]">
         {/* image */}
         <div className="flex-[0.7_1_0%] max-h-[80vh]">
-          <div className="flex justify-center w-full h-full">
-            <img src={post.url} alt={post.idUser.name} className="aspect-1 object-cover"/>
+          <div className="flex justify-center w-full h-full bg-black">
+            {post.type === "image" ? (
+              <img src={post.url} alt={post.idUser.name} className="aspect-1 object-cover"/>
+            ) : (
+              <ReactPlayer 
+                url={post.url}
+                controls={true}
+                playsinline={true}
+                loop={true}
+                width="100%"
+                height="100%"
+              />
+            )}
           </div>
         </div>
 

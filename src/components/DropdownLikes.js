@@ -19,7 +19,12 @@ export default function DropdownLikes({ userAuth, userAuthIsLoading }) {
   }
 
   useEffect(() => {
-    fetchLikes();
+    let mounted = true;
+    if(!userAuthIsLoading) {
+      fetchLikes();
+    }
+
+    return () => mounted = false;
   }, []);
 
   return (

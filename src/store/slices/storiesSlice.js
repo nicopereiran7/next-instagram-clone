@@ -5,7 +5,7 @@ import { decodeToken } from "../../utils/token";
 export const storieSlice = createSlice({
   name: "stories",
   initialState: {
-    stories: [],
+    stories: null,
     isLoadingStories: true,
   },
   reducers: {

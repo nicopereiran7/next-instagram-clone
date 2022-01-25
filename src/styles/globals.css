@@ -33,3 +33,7 @@
 .slick-prev {
   left: -10px !important;
 }
+
+.l-border {
+  border-left: 1px solid rgb(209, 209, 209);
+}
