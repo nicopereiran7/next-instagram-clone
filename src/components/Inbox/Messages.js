@@ -37,7 +37,7 @@ const MessageItem = ({ item, userAuth }) => {
       <div className={`flex items-center gap-2 w-fit ${isMyMessage && "ml-auto"}`}>
         {!isMyMessage && 
           <div className="w-6">
-            <img src={"/assets/avatar.png"} alt="" className="w-full aspect-1 rounded-full"/>
+            <img src={item.idUser?.avatar || "/assets/avatar.png"} alt="" className="w-full aspect-1 rounded-full"/>
           </div>
         }
         <p className="p-3 text-sm w-fit rounded-2xl bg-white border border-solid border-[#dbdbdb]">{item.message}</p>

@@ -13,6 +13,7 @@ export default function Chat() {
   const [chatInfo, setChatInfo] = useState(null);
   const { userAuth } = useSelector(state => state.userAuth);
   const [connected, setConnected] = useState(false);
+  const [reloadMessages, setReloadMessages] = useState(false)
 
   const fetchMessages = async () => {
     try {
@@ -37,10 +38,8 @@ export default function Chat() {
   }
 
   useEffect(() => {
-    let mounted = true;
     fetchMessages();
-    return () => mounted = false;
-  }, [router.query]);
+  }, [router.query, reloadMessages]);
 
   useEffect(() => {
     fetchChatInfo();
@@ -57,7 +56,7 @@ export default function Chat() {
 
     // update chat on new message dispatched
     socket.on("message", () => {
-      fetchMessages();
+      setReloadMessages(true);
     });
 
     if (socket) return () => socket.disconnect();
