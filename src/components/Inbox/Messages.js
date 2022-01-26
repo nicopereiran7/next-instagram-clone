@@ -1,15 +1,22 @@
 import { hora } from "../../utils/time";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const Messages = ({ messages, userAuth }) => {  
+const Messages = ({ messages, userAuth }) => { 
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages])
+
   return (
-    <>
+    <div>
       {!messages || messages.length === 0 ? (
         <p>No hay mensajes</p>
       ) : messages?.map((item, index) => (
         <MessageItem key={index} item={item} userAuth={userAuth} />
       ))}
-    </>
+      <div ref={scrollRef}/>
+    </div>
   )
 }
 

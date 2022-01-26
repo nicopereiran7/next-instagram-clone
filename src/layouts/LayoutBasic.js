@@ -23,7 +23,7 @@ export default function LayoutBasic({ children }) {
         <NavBar userAuth={userAuth} userAuthIsLoading={userAuthIsLoading}/>
         {/* main-content */}
         <div className="flex justify-center">
-          <div className="max-w-[975px] w-full min-h-screen px-4 lg:px-0 mb-4">{children}</div>
+          <div className="max-w-[975px] w-full px-4 lg:px-0 mb-4">{children}</div>
         </div>
       </div>
 

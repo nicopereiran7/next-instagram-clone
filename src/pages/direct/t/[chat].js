@@ -4,18 +4,33 @@ import { useState, useEffect } from "react";
 import Messages from "../../../components/Inbox/Messages";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import SocketIOClient from "socket.io-client";
 
-function Chat() {
+export default function Chat() {
   const router = useRouter();
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState(null);
+  const [chatInfo, setChatInfo] = useState(null);
   const { userAuth } = useSelector(state => state.userAuth);
+  const [connected, setConnected] = useState(false);
 
   const fetchMessages = async () => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/messages`);
       const result = await res.json();
       setMessages(result);
+    }catch(e) {
+      console.log(e);
+    }
+  };
+
+  const fetchChatInfo = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/info`);
+      const result = await res.json();
+      
+      const member = result?.members.find(member => member.username !== userAuth?.username);
+      setChatInfo(member);
     }catch(e) {
       console.log(e);
     }
@@ -27,9 +42,45 @@ function Chat() {
     return () => mounted = false;
   }, [router.query]);
 
-  const sendMessage = (e) => {
+  useEffect(() => {
+    fetchChatInfo();
+  }, [router.query])
+
+  useEffect(() => {
+    const socket = SocketIOClient.connect(process.env.NEXT_PUBLIC_SERVER_URI, {
+      path: "/api/socketio",
+    });
+    socket.on("connect", () => {
+      console.log("SOCKET CONNECTED!", socket.id);
+      setConnected(true);
+    });
+
+    // update chat on new message dispatched
+    socket.on("message", () => {
+      fetchMessages();
+    });
+
+    if (socket) return () => socket.disconnect();
+  }, []);
+
+  const sendMessage = async (e) => {
     e.preventDefault();
-    console.log(inputMessage); 
+    const data = { idUser: userAuth._id, idChat: router.query.chat, message: inputMessage };
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/message/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if(res.status === 200) {
+        setInputMessage("");
+      }
+    }catch(e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -38,10 +89,10 @@ function Chat() {
         {/* header chat */}
         <div className="px-6 py-4 flex items-center gap-3 border-b border-solid border-b-[#dbdbdb]">
           <div className="w-7">
-            <img src={"/assets/avatar.png"} alt="" className="w-full aspect-1 rounded-full" />
+            <img src={chatInfo?.avatar || "/assets/avatar.png"} alt="" className="w-full aspect-1 rounded-full" />
           </div>
           <div className="flex-grow">
-            <h3 className="font-medium">Username</h3>
+            <h3 className="font-medium">{chatInfo?.username || ""}</h3>
             <p className="text-xs text-gray-500">{"Activo(a) hace 1h"}</p>
           </div>
           <div>
@@ -50,9 +101,9 @@ function Chat() {
         </div>
 
         {/* chat content */}
-        <div className="p-6 flex-1 overflow-y-scroll">
+        <div className="p-6 flex-1 overflow-y-auto" >
           {/* messages */}
-          <Messages messages={messages} userAuth={userAuth}/>
+          <Messages messages={messages} userAuth={userAuth} />
         </div>
 
         {/* input message */}
@@ -98,7 +149,5 @@ function Chat() {
 //     },
 //   };
 // }
-
-export default Chat;
 
 
