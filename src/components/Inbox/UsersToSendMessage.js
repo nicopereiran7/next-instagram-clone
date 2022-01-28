@@ -45,7 +45,7 @@ export default function UsersToSendMessage() {
             </div>
           </div>
         )) : (
-          <div className="p-4">
+          <div className="p-4 flex justify-center">
             <CircularProgress size={14} className="mt-2"/>
           </div>
         )}

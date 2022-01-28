@@ -14,23 +14,16 @@ import Followers from "../components/Profile/Followers";
 import Posts from "../components/Profile/Posts";
 
 function Username({ data, error }) {
+  const { user: userAuth, isLoading } = useUserAuth();
   const { userFound, followers, followed, posts } = data;
-
-  const { user: userAuth } = useUserAuth();
   const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [titleModal, setTitleModal] = useState("");
 
-  useEffect(() => {
-    if (!getToken()) {
-      router.push("/");
-    }
-  }, []);
+  if (!userAuth && isLoading) return <Loading />;
 
-  if (!userAuth) return <Loading />;
-
-  if (error && error.statusCode) {
+  if (error) {
     return <PageNotFound details="Usuario No Encontrado" />;
   }
 
@@ -58,7 +51,7 @@ function Username({ data, error }) {
       {!userAuth ? (
         <LinearProgress />
       ) : (
-        <>
+        <div className="min-h-[80vh]">
           {/* PROFILE INFO */}
           <div className="w-full inline-block md:flex p-4 sm:p-8 mb-4">
             {/* -- avatar image --*/}
@@ -125,7 +118,7 @@ function Username({ data, error }) {
 
           {/* PUBLICACIONES */}
           {!posts ? <LinearProgress /> : <Posts user={userFound} posts={posts} />}
-        </>
+        </div>
       )}
     </LayoutBasic>
   );
@@ -147,6 +140,12 @@ export async function getServerSideProps({ query: { username } }) {
   }
   return {
     props: {
+      data: {
+        userFound: null, 
+        followers: null,
+        followed: null, 
+        posts: null
+      },
       error: {
         statusCode: response.status,
         statusText: "Invalid Username",

@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import Slider from "react-slick";
 
-export default function Stories({ stories: userStories }) {
+export default function Stories({ stories: userStories, isLoadingStories }) {
   const settings = {
     dots: false,
     infinite: false,
@@ -12,7 +12,7 @@ export default function Stories({ stories: userStories }) {
 
   return (
     <div className="bg-white border-solid border-[1px] border-neutral-300 p-4">
-      {!userStories ? (
+      {!userStories && !isLoadingStories ? (
         <div className="w-full flex justify-center">
           <CircularProgress size={14} className="mt-2" />
         </div>

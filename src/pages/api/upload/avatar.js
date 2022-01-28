@@ -3,7 +3,7 @@ import { dbConnect } from "../../../config/db";
 import parseFile from "../../../middlewares/parseFile";
 import nextConnect from "next-connect";
 import fs from "fs";
-import { awsUploadImage, awsDeleteImage } from "../../../utils/aws-upload-image";
+import { awsUploadImage } from "../../../utils/aws-upload-image";
 import jwt from "jsonwebtoken";
 import User from "../../../models/user";
 

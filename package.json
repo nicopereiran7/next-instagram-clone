@@ -30,8 +30,6 @@
     "next": "12.0.7",
     "next-connect": "^0.11.0",
     "next-use-contextual-routing": "^2.1.0",
-    "pusher": "^5.0.0",
-    "pusher-js": "^7.0.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.2",
@@ -47,7 +45,7 @@
     "swr": "^1.1.2",
     "uuid": "^8.3.2",
     "yup": "^0.32.11",
-    "zustand": "^3.6.8"
+    "zustand": "^3.6.9"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.1",

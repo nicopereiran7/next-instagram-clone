@@ -6,13 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function DropdownProfileNavOptions() {
   const { user } = useSelector((state) => state.user);
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const cerrarSesion = () => {
     dispatch(logOut());
     dispatch(setFeed([]));
-    router.push("/");
+    window.location.href = "/";
   };
 
   return (

@@ -4,35 +4,37 @@ import LayoutBasic from "../layouts/LayoutBasic";;
 import AvatarProfile from "../components/AvatarProfile";
 import { useRouter } from "next/router";
 import Footer from "../components/Footer";
-import useUserAuth from "../hooks/useUserAuth";
-import useAllUserAuth from "../hooks/useAllUserAuth";
-import Loading from "../components/Loading";
 import { LinearProgress } from "@mui/material";
 import Feed from "../components/Feed";
-import useFeed from "../hooks/useFeed";
-import useStories from "../hooks/useStories";
 import Stories from "../components/Home/Stories";
 import Suggestions from "../components/Home/Suggestions";
+import { useEffect, useState } from "react";
+import { getToken } from "../utils/localStorage";
+import { useSelector } from "react-redux";
 
 function Home() {
-  const { user } = useUserAuth();
-  const { userAuth, userAuthIsLoading } = useAllUserAuth();
-  const { feedList, feedIsLoading } = useFeed();
-  const { stories, isLoadingStories } = useStories();
+  const [auth, setAuth] = useState({ token: null, isLoadingToken: true });
+  const { user, isLoading } = useSelector(state => state.user);
+  const { userAuth, userAuthIsLoading } = useSelector(state => state.userAuth);
+  const { feedList, feedIsLoading } = useSelector(state => state.feed);
+  const { stories, isLoadingStories } = useSelector(state => state.stories);
   const router = useRouter();
 
+  useEffect(() => {
+    setAuth({ token: getToken(), isLoadingToken: false });
+  }, []);
+
   return (
-    <div>
+    <>
       <HeadComponent title="Instagram" />
-      {!user ? (
+      {!auth.token && !auth.isLoadingToken ? (
         <Login />
       ) : (
         <LayoutBasic>
-          <HeadComponent title="Instagram" />
           <div className="mt-4 flex justify-center md:flex max-w-[975px]">
             {/* left-content */}
             <div className="flex-1 md:flex-[0.65_1_0%] flex flex-col gap-4 mb-4 max-w-[600px]">
-              {stories?.length > 0 && <Stories stories={stories}/>}
+              {stories?.length > 0 && <Stories stories={stories} isLoadingStories={isLoadingStories} />}
               <Feed userAuth={userAuth} data={feedList} feedIsLoading={feedIsLoading}/>
             </div>
 
@@ -51,11 +53,11 @@ function Home() {
                   <div className="flex flex-col items-start justify-center w-full ml-4">
                     <h1
                       className="font-medium box-border hover:cursor-pointer"
-                      onClick={() => router.push(`/${user.username}`)}
+                      onClick={() => router.push(`/${user?.username}`)}
                     >
-                      {user.username}
+                      {user?.username}
                     </h1>
-                    <h2 className="font-light">{user.name}</h2>
+                    <h2 className="font-light">{user?.name}</h2>
                   </div>
                 </div>
                 {/* sugerencias */}
@@ -67,7 +69,7 @@ function Home() {
           </div>
         </LayoutBasic>
       )}
-    </div>
+    </>
   );
 }
 

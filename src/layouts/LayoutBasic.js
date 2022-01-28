@@ -6,13 +6,24 @@ import useFeed from "../hooks/useFeed";
 import useStories from "../hooks/useStories";
 import useChats from "../hooks/useChats";
 import Loading from "../components/Loading";
+import { useEffect } from "react";
+import { getToken } from "../utils/localStorage";
+import { useRouter } from "next/router";
 
 export default function LayoutBasic({ children }) {
+  const router = useRouter();
   const { user } = useUserAuth();
   const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const { feedList, feedIsLoading } = useFeed();
   const { stories, isLoadingStories } = useStories();
   const { chats, chatsIsLoading } = useChats();
+
+  // ir al inicio en cada pagina que este el LayoutBasic, si no hay usuario auth
+  useEffect(() => {
+    if(!user) {
+      router.push("/");
+    }
+  }, [])
   
   if (userAuthIsLoading && feedIsLoading && isLoadingStories) return <Loading />;
 
