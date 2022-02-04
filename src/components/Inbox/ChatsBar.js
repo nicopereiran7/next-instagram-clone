@@ -8,9 +8,9 @@ export default function ChatsBar({ userAuth }) {
 
   return (
     <div className="h-full flex flex-col gap-4 px-5 pt-4 flex-1 overflow-y-auto">
-      {!chatIsLoading ? chats.map((chat, index) => (
+      {!chatIsLoading || !chats ? chats.map((chat, index) => (
         <div key={index} className="relative flex flex-col gap-3 hover:cursor-pointer" onClick={() => router.push(`/direct/t/${chat._id}`)}>
-          {chat.members.map((member, index) => {
+          {chat?.members?.map((member, index) => {
             if(member._id !== userAuth._id) {
               return (
                 <div key={index} className="flex items-center gap-3">

@@ -8,11 +8,11 @@ export default function useFeed() {
 
   useEffect(() => {
     let mounted = true;
-    if(mounted && !feedList) {
+    if (mounted) {
       dispatch(setFeedList());
     }
 
-    return () => mounted = false;
+    return () => (mounted = false);
   }, []);
 
   return {

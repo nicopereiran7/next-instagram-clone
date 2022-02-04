@@ -8,7 +8,7 @@ export default function Loading() {
         <img
           src="https://cdn.icon-icons.com/icons2/2248/PNG/512/instagram_icon_138461.png"
           alt=""
-          className="w-10 object-cover"
+          className="w-14 object-cover"
         />
       </div>
     </>

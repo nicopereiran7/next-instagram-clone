@@ -9,7 +9,7 @@ import ModalBasic from "../components/Modal/ModalBasic";
 import UsersToSendMessage from "../components/Inbox/UsersToSendMessage";
 
 export default function LayoutInbox({ children }) {
-  const { userAuth } = useSelector(state => state.userAuth);
+  const { userAuth } = useSelector((state) => state.userAuth);
   const [openModal, setOpenModal] = useState(false);
 
   const closeModal = () => setOpenModal(false);
@@ -19,7 +19,6 @@ export default function LayoutInbox({ children }) {
       <HeadComponent title="Bandeja de entrada - Chats" />
 
       <div className="flex bg-white shadow-2xl border border-solid border-slate-300 my-4 divide-x min-h-[80vh] max-h-[80vh]">
-
         {/* Left side - CHATS */}
         <div className="flex-[0.3_1_0%] flex flex-col">
           <div className="grid grid-cols-3 p-6 border-b border-solid border-b-[#dbdbdb]">
@@ -28,9 +27,17 @@ export default function LayoutInbox({ children }) {
               <p className="text-lg font-semibold">{userAuth?.username}</p>
             </div>
             <div className="flex items-center justify-end">
-              <ReplyIcon className="h-5 w-5 hover:cursor-pointer" onClick={() => setOpenModal(true)}/>
-              <ModalBasic openModal={openModal} closeModal={closeModal} haveTitle={true} title="Nuevo Mensaje">
-                <UsersToSendMessage />
+              <ReplyIcon
+                className="h-5 w-5 hover:cursor-pointer"
+                onClick={() => setOpenModal(true)}
+              />
+              <ModalBasic
+                openModal={openModal}
+                closeModal={closeModal}
+                haveTitle={true}
+                title="Nuevo Mensaje"
+              >
+                <UsersToSendMessage closeModal={closeModal} />
               </ModalBasic>
             </div>
           </div>
@@ -46,10 +53,8 @@ export default function LayoutInbox({ children }) {
         </div>
 
         {/* Right side - CHAT CONTENT */}
-        <div className="l-border flex-[0.7_1_0%]">
-          {children}
-        </div>
+        <div className="l-border flex-[0.7_1_0%]">{children}</div>
       </div>
     </LayoutBasic>
-  )
+  );
 }

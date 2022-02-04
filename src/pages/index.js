@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 
 function Home() {
   const [auth, setAuth] = useState({ token: null, isLoadingToken: true });
-  const { user, isLoading } = useSelector(state => state.user);
+  const { user } = useSelector(state => state.user);
   const { userAuth, userAuthIsLoading } = useSelector(state => state.userAuth);
   const { feedList, feedIsLoading } = useSelector(state => state.feed);
   const { stories, isLoadingStories } = useSelector(state => state.stories);
@@ -31,7 +31,7 @@ function Home() {
         <Login />
       ) : (
         <LayoutBasic>
-          <div className="mt-4 flex justify-center md:flex max-w-[975px]">
+          <div className="mt-4 flex justify-center md:flex max-w-[975px] min-h-[90vh]">
             {/* left-content */}
             <div className="flex-1 md:flex-[0.65_1_0%] flex flex-col gap-4 mb-4 max-w-[600px]">
               {stories?.length > 0 && <Stories stories={stories} isLoadingStories={isLoadingStories} />}

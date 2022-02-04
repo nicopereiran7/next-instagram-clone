@@ -1,5 +1,10 @@
 import LayoutInbox from "../../../layouts/LayoutInbox";
-import { HeartIcon, PhotographIcon, MoonIcon, InformationCircleIcon } from "@heroicons/react/outline";
+import {
+  HeartIcon,
+  PhotographIcon,
+  MoonIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/outline";
 import { useState, useEffect } from "react";
 import Messages from "../../../components/Inbox/Messages";
 import { useRouter } from "next/router";
@@ -11,31 +16,37 @@ export default function Chat() {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState(null);
   const [chatInfo, setChatInfo] = useState(null);
-  const { userAuth } = useSelector(state => state.userAuth);
+  const { userAuth } = useSelector((state) => state.userAuth);
   const [connected, setConnected] = useState(false);
-  const [reloadMessages, setReloadMessages] = useState(false)
+  const [reloadMessages, setReloadMessages] = useState(false);
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/messages`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/messages`
+      );
       const result = await res.json();
       setMessages(result);
-    }catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
 
   const fetchChatInfo = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/info`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/info`
+      );
       const result = await res.json();
-      
-      const member = result?.members.find(member => member.username !== userAuth?.username);
+
+      const member = result?.members.find(
+        (member) => member.username !== userAuth?.username
+      );
       setChatInfo(member);
-    }catch(e) {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     fetchMessages();
@@ -43,7 +54,7 @@ export default function Chat() {
 
   useEffect(() => {
     fetchChatInfo();
-  }, [router.query])
+  }, [router.query]);
 
   useEffect(() => {
     const socket = SocketIOClient.connect(process.env.NEXT_PUBLIC_SERVER_URI, {
@@ -64,23 +75,30 @@ export default function Chat() {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    const data = { idUser: userAuth._id, idChat: router.query.chat, message: inputMessage };
+    const data = {
+      idUser: userAuth._id,
+      idChat: router.query.chat,
+      message: inputMessage,
+    };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/message/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if(res.status === 200) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/message/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      if (res.status === 200) {
         setInputMessage("");
       }
-    }catch(e) {
+    } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <LayoutInbox>
@@ -88,7 +106,11 @@ export default function Chat() {
         {/* header chat */}
         <div className="px-6 py-4 flex items-center gap-3 border-b border-solid border-b-[#dbdbdb]">
           <div className="w-7">
-            <img src={chatInfo?.avatar || "/assets/avatar.png"} alt="" className="w-full aspect-1 rounded-full" />
+            <img
+              src={chatInfo?.avatar || "/assets/avatar.png"}
+              alt=""
+              className="w-full aspect-1 rounded-full"
+            />
           </div>
           <div className="flex-grow">
             <h3 className="font-medium">{chatInfo?.username || ""}</h3>
@@ -100,29 +122,43 @@ export default function Chat() {
         </div>
 
         {/* chat content */}
-        <div className="p-6 flex-1 overflow-y-auto" >
+        <div className="p-6 flex-1 overflow-y-auto">
           {/* messages */}
           <Messages messages={messages} userAuth={userAuth} />
         </div>
 
         {/* input message */}
         <div className="px-6 py-4">
-          <form className="flex items-center gap-2 border border-solid border-gray-300 rounded-2xl px-2 py-1" onSubmit={sendMessage}>
+          <form
+            className="flex items-center gap-2 border border-solid border-gray-300 rounded-2xl px-2 py-1"
+            onSubmit={sendMessage}
+          >
             <MoonIcon className="h-7 w-7" />
-            <input type="text" onChange={(e) => setInputMessage(e.target.value)} value={inputMessage} placeholder="Enviar mensaje.." className="flex-grow focus:outline-none px-2"/>
+            <input
+              type="text"
+              onChange={(e) => setInputMessage(e.target.value)}
+              value={inputMessage}
+              placeholder="Enviar mensaje.."
+              className="flex-grow focus:outline-none px-2"
+            />
             {!inputMessage ? (
               <>
                 <HeartIcon className="h-7 w-7" />
                 <PhotographIcon className="h-7 w-7" />
               </>
             ) : (
-              <button type="submit" className="text-sky-500 font-medium text-sm">Enviar</button>
+              <button
+                type="submit"
+                className="text-sky-500 font-medium text-sm"
+              >
+                Enviar
+              </button>
             )}
           </form>
         </div>
       </div>
     </LayoutInbox>
-  ) 
+  );
 }
 
 // export async function getServerSideProps({ query: { chat } }) {
@@ -148,5 +184,3 @@ export default function Chat() {
 //     },
 //   };
 // }
-
-

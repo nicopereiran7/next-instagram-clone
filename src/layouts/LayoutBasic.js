@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 export default function LayoutBasic({ children }) {
   const router = useRouter();
-  const { user } = useUserAuth();
+  const { user, isLoading } = useUserAuth();
   const { userAuth, userAuthIsLoading } = useAllUserAuth();
   const { feedList, feedIsLoading } = useFeed();
   const { stories, isLoadingStories } = useStories();
@@ -20,7 +20,7 @@ export default function LayoutBasic({ children }) {
 
   // ir al inicio en cada pagina que este el LayoutBasic, si no hay usuario auth
   useEffect(() => {
-    if(!user) {
+    if(!user && !isLoading) {
       router.push("/");
     }
   }, [])
