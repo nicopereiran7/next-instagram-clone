@@ -10,6 +10,7 @@ import Messages from "../../../components/Inbox/Messages";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import SocketIOClient from "socket.io-client";
+import PageNotFound from "../../../components/PageNotFound";
 
 export default function Chat() {
   const router = useRouter();
@@ -19,11 +20,13 @@ export default function Chat() {
   const { userAuth } = useSelector((state) => state.userAuth);
   const [connected, setConnected] = useState(false);
   const [reloadMessages, setReloadMessages] = useState(false);
+  const [idChat, setIdChat] = useState(router.query?.chat);
+  const [error, setError] = useState(false);
 
   const fetchMessages = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/messages`
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${idChat}/messages`
       );
       const result = await res.json();
       setMessages(result);
@@ -35,14 +38,16 @@ export default function Chat() {
   const fetchChatInfo = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${router.query?.chat}/info`
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/chat/${idChat}/info`
       );
-      const result = await res.json();
+      if(res.status === 200) {
+        const result = await res.json();
 
-      const member = result?.members.find(
-        (member) => member.username !== userAuth?.username
-      );
-      setChatInfo(member);
+        const member = result?.members.find((member) => member.username !== userAuth?.username);
+        setChatInfo(member);
+      }else {
+        setError(true);
+      } 
     } catch (e) {
       console.log(e);
     }
@@ -61,12 +66,12 @@ export default function Chat() {
       path: "/api/socketio",
     });
     socket.on("connect", () => {
-      console.log("SOCKET CONNECTED!", socket.id);
+      // console.log("SOCKET CONNECTED!", socket.id);
       setConnected(true);
     });
 
     // update chat on new message dispatched
-    socket.on("message", () => {
+    socket.on(idChat, () => {
       setReloadMessages(true);
     });
 
@@ -99,6 +104,8 @@ export default function Chat() {
       console.log(e);
     }
   };
+
+  if(error) return <PageNotFound details={"Pagina no encontrada"} />;
 
   return (
     <LayoutInbox>

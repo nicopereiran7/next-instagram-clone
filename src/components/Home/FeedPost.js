@@ -8,12 +8,11 @@ import {
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/solid";
 import PostOptions from "../Post/PostOptions";
 import { useEffect, useState } from "react";
-import moment from "moment";
-import esLocale from "moment/locale/es";
 import { useRouter } from "next/router";
 import { getToken } from "../../utils/localStorage";
 import ReactPlayer from "react-player";
 import { useInView } from "react-intersection-observer";
+import { timeAgo } from "../../utils/time";
 
 export default function FeedPost({ post, userAuth }) {
   const [openOptionsPostModal, setOpenOptionsPostModal] = useState(false);
@@ -23,7 +22,6 @@ export default function FeedPost({ post, userAuth }) {
   const [ref, inView] = useInView({
     threshold: 1,
   });
-  moment.updateLocale("es", [esLocale]);
 
   useEffect(() => {
     async function fetchLikePost() {
@@ -43,21 +41,18 @@ export default function FeedPost({ post, userAuth }) {
 
   const closeModalOptions = () => setOpenOptionsPostModal(false);
 
-  const timeAgo = (date) => moment(date).fromNow();
-
   const likePost = async (idPost) => {
     try {
       const data = { idPost }
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/add`, {
         method: 'POST',
         headers: {
+          "Content-Type": "application/json",
           "Authorization": `${getToken()}`
         },
         body: JSON.stringify(data),
       });
       if(res.status === 200) {
-        const result = await res.json();
-        console.log(result);
         setReloadFeedPost(true);
       }
     }catch(e) {

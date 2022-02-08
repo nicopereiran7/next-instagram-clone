@@ -87,22 +87,23 @@ export default function PostModal({ userAuth }) {
 
     try {
       const data = { idPost };
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/add`,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/like/add`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `${getToken()}`,
+            "Authorization": `${getToken()}`,
           },
           body: JSON.stringify(data),
         }
       );
-      if (res.status === 200) {
+      const result = await res.json();
+
+      if (res.status === 200 || result.like) {
         setReload(true);
       }
     } catch (e) {
-      console.log(e.response);
+      console.log(e);
     }
   };
 

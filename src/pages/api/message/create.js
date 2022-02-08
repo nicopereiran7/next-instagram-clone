@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     });
 
     const messageSaved = await newMessage.save();
-    res?.socket.server.io.emit("message", messageSaved);
+    res?.socket.server.io.emit(idChat, messageSaved);
     return res.status(200).send(messageSaved);
     
   }catch(err) {

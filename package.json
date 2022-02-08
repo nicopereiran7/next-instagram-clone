@@ -30,6 +30,7 @@
     "next": "12.0.7",
     "next-connect": "^0.11.0",
     "next-use-contextual-routing": "^2.1.0",
+    "pusher-js": "^7.0.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.2",

@@ -10,12 +10,11 @@ export default async function handler(req, res) {
   if(req.method !== "POST") return res.status(400).send({ error: "Metodo no soportado" });
 
   try {
-    const body = req.body;
-    const data = JSON.parse(body)
+    const { idPost } = req.body;
     const { authorization: token } = req.headers;
     const user = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY);
     const newLike = new Like({
-      idPost: data.idPost,
+      idPost: idPost,
       idUser: user.id
     });
     

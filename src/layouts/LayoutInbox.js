@@ -7,8 +7,10 @@ import ChatsBar from "../components/Inbox/ChatsBar";
 import Link from "next/link";
 import ModalBasic from "../components/Modal/ModalBasic";
 import UsersToSendMessage from "../components/Inbox/UsersToSendMessage";
+import useChats from "../hooks/useChats";
 
 export default function LayoutInbox({ children }) {
+  const { chats, chatIsLoading } = useChats();
   const { userAuth } = useSelector((state) => state.userAuth);
   const [openModal, setOpenModal] = useState(false);
 
@@ -49,7 +51,11 @@ export default function LayoutInbox({ children }) {
           </div>
 
           {/* Chats */}
-          <ChatsBar userAuth={userAuth} />
+          <ChatsBar
+            userAuth={userAuth}
+            chats={chats}
+            chatIsLoading={chatIsLoading}
+          />
         </div>
 
         {/* Right side - CHAT CONTENT */}

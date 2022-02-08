@@ -4,19 +4,19 @@ import { fetchChats } from "../store/slices/chatsSlice";
 
 export default function useChats() {
   const dispatch = useDispatch();
-  const { chats, chatsIsLoading } = useSelector((store) => store.chats);
+  const { chats, chatIsLoading } = useSelector((store) => store.chats);
 
   useEffect(() => {
     let mounted = true;
-    if(mounted) {
+    if (mounted && chats === null) {
       dispatch(fetchChats());
     }
 
-    return () => mounted = false;
+    return () => (mounted = false);
   }, []);
 
   return {
     chats,
-    chatsIsLoading,
+    chatIsLoading,
   };
 }
